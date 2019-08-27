@@ -8,6 +8,12 @@
 #include "model/Colour.h"
 #include "model/Rect.h"
 
+extern struct Colour const io_RED = {255, 0, 0};
+extern struct Colour const io_GREEN = {0, 255, 0};
+extern struct Colour const io_BLUE = {0, 0, 255};
+extern struct Colour const io_BLACK = {0, 0, 0};
+extern struct Colour const io_WHITE = {255, 255, 255};
+
 static struct Context *makeContext(
         char const *title,
         int fullscreen,
@@ -86,7 +92,7 @@ int io_execute(int (*body)(struct Context const *)) {
         dimensions,
         "tileset.png"
     );
-    io_flush(context, Colour_BLACK);
+    io_flush(context, io_BLACK);
     io_frame(context);
     int response = body(context);
     // free the context and stuff.

@@ -1,11 +1,17 @@
 #ifndef IO_H
 #define IO_H
 
-#include <SDL2/SDL.h>
 #include "model/Context.h"
 #include "model/Vector.h"
 #include "model/Rect.h"
 #include "model/Colour.h"
+#include <SDL2/SDL.h>
+
+extern struct Colour const io_RED;
+extern struct Colour const io_GREEN;
+extern struct Colour const io_BLUE;
+extern struct Colour const io_BLACK;
+extern struct Colour const io_WHITE;
 
 /**
  * Executes the body of the game within the lifespan of the technical

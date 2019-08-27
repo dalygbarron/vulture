@@ -1,0 +1,82 @@
+HOW GUIS WILL WORK IN THE GAME
+===============================================================================
+
+Ok, so in my other projects I have had embedded scripting systems and that
+kind of stuff which has allowed me to run gui stuff asynchronously and in
+a customised way. However, in this game we cannot do asynchronous stuff like
+before, or not as easily, and we also kinda need to hard code the logic on the
+menus because none of them are custom and all have a hard coded place and
+purpose, and there is no scripting system because it is not needed in this type
+of game, even though in this situation it comes in handy a bit.
+
+Anyway, in a game like this, my usual asynchronicity via coroutines would not
+work because it needs to be able to stop right in the thick of things to ask
+the user a question, and then do stuff based on what the user says.\
+
+Ok actually, before we get ahead of ourselves, I will outline the situations
+that the gui needs to be able to handle, and then I will explore potential
+solutions.
+
+Also, I just had the thought that we could make the main game logic loop the
+coroutine instead of the other way round, and every time it requires user input
+it yields until the user does something. That sounds pretty sweet but it still
+requires me to implement coroutines which is kind of over the top.
+
+THE SITUATIONS THAT MUST BE HANDLED
+===================================
+
+During the main loop of the game, it must iterate over all enemies, and when it
+iterates over the player, it must stop in order to request input from the
+player, and also run menus and all of that kind of stuff.
+
+THE SOLUTION
+============
+
+That was quicker than I thought but obviously, the player must just not be
+processed in the middle of the loop. The player should be processed, and then
+it should return the amount of "time" that the player's move took and then it
+should iterate over all other creatures and let them take the same amount of
+time.
+
+The game loop will look something like:
+    1) handle player input and process menus
+    2) if player caused physical move within game, update all other characters.
+    3) render map then characters then any gui elements on the screen.
+
+GUI LOGIC
+=========
+
+That sorts out how the game loop will work and how we will find time for
+running guis and all that, but we still need to figure out how the guis will
+actually work logically. It is still going to be a bit of a pain in the ass
+since they can not be synchronous and cannot use coroutines. Maybe instead they
+can use callbacks of some description.
+
+Maybe we can make it that instead of creating GUI widget objects like usual
+which is kind of a pain in the ass, we create two callbacks; one to update the
+gui, and one to draw it, and also we have some kinda void pointer to the data
+that they share.
+
+The update callback will recieve user input and be called for every single
+input event, while the render one will just be called each frame.
+
+When the menu is finished being used, it will need to return some kind of
+action struct which will tell the engine what to do since the menu itself wont
+have access to actually do all the shit. This should work well enough.
+
+For example, if it were a inventory menu then it would do all of that shit that
+it does, and then when the player makes their choice it will return some kind
+of 'equip item 5 in inventory to hand' or 'drop item 3' kind of struct thing.
+
+I think that these action token thingies will be used for all player actions
+and will always be created upon the handling of an event. Then in synchronicity
+with the event being handled the map is then updated with this new event, and
+then when there are no events left the game gets rendered.
+
+REPETITION
+==========
+
+That is all well and good, but there is going to be a fair bit of repetition in
+these things if they are fully coded each time. I will see if I can find a way
+to use other functions to make that not so bad. Actually, you could possibly
+have a function for a list and a box and stuff. We shall see.

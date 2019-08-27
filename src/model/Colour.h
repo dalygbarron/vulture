@@ -10,10 +10,4 @@ struct Colour {
     unsigned char blue;
 };
 
-struct Colour const Colour_RED = {255, 0, 0};
-struct Colour const Colour_GREEN = {0, 255, 0};
-struct Colour const Colour_BLUE = {0, 0, 255};
-struct Colour const Colour_BLACK = {0, 0, 0};
-struct Colour const Colour_WHITE = {255, 255, 255};
-
 #endif
