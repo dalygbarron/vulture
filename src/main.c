@@ -10,6 +10,8 @@ int body(struct Context const *context) {
             struct Event event = io_handleInput();
             if (event.type == Event_NOTHING) {
                 break;
+            } else if (event.type == Event_KEY) {
+                log_info("Key code %d", event.value);
             } else if (event.type == Event_QUIT) {
                 return 69;
             }

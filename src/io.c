@@ -119,8 +119,6 @@ struct Event io_handleInput() {
             event.type = Event_KEY;
             event.value = e.key.keysym.sym;
             break;
-        } else {
-            log_debug("Unknown event type %d", e.type);
         }
     }
     return event;
