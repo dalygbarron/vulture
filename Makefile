@@ -1,7 +1,7 @@
 CC=gcc
 OUT=main
 START=main.o
-OBJS=io.o log.o
+OBJS=io.o log.o util.o
 C_FLAGS=-I . -std=c11
 LINKER_FLAGS=-lSDL2 -lSDL2_image
 

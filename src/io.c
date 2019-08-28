@@ -3,16 +3,18 @@
 #include "io.h"
 #include "const.h"
 #include "log.h"
+#include "util.h"
 #include "model/Context.h"
 #include "model/Vector.h"
 #include "model/Colour.h"
 #include "model/Rect.h"
+#include "model/Event.h"
 
-extern struct Colour const io_RED = {255, 0, 0};
-extern struct Colour const io_GREEN = {0, 255, 0};
-extern struct Colour const io_BLUE = {0, 0, 255};
-extern struct Colour const io_BLACK = {0, 0, 0};
-extern struct Colour const io_WHITE = {255, 255, 255};
+struct Colour const io_RED = {255, 0, 0};
+struct Colour const io_GREEN = {0, 255, 0};
+struct Colour const io_BLUE = {0, 0, 255};
+struct Colour const io_BLACK = {0, 0, 0};
+struct Colour const io_WHITE = {255, 255, 255};
 
 static struct Context *makeContext(
         char const *title,
@@ -33,12 +35,16 @@ static struct Context *makeContext(
         return 0;
     }
     // make window.
+    struct Vector size = {
+        dimensions.x * loadedSurface->w / const_TILE_COUNT,
+        dimensions.y * loadedSurface->h / const_TILE_COUNT,
+    };
     context->window = SDL_CreateWindow(
         title,
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
-        dimensions.x * loadedSurface->w / const_TILE_COUNT,
-        dimensions.y * loadedSurface->h / const_TILE_COUNT,
+        size.x,
+        size.y,
         SDL_WINDOW_SHOWN | (fullscreen ? SDL_WINDOW_FULLSCREEN : 0)
     );
     if (!context->window) {
@@ -77,6 +83,8 @@ static struct Context *makeContext(
     context->src.h /= const_TILE_COUNT;
     context->dst.w = context->src.w;
     context->dst.h = context->src.h;
+    context->dimensions = dimensions;
+    context->size = size;
     return context;
 }
 
@@ -85,22 +93,75 @@ static void destroyContext(struct Context *context) {
 }
 
 int io_execute(int (*body)(struct Context const *)) {
-    struct Vector dimensions = {1024, 600};
+    struct Vector dimensions = {80, 50};
     struct Context *context = makeContext(
         "title",
-        1,
+        0,
         dimensions,
         "tileset.png"
     );
-    io_flush(context, io_BLACK);
-    io_frame(context);
     int response = body(context);
     // free the context and stuff.
     return response;
 }
 
-void io_flush(struct Context const *context, struct Colour colour) {
+struct Event io_handleInput() {
+    SDL_Event e;
+    struct Event event;
+    while (1) {
+        if (SDL_PollEvent(&e) == 0) {
+            event.type = Event_NOTHING;
+            break;
+        } else if (e.type == SDL_QUIT) {
+            event.type = Event_QUIT;
+            break;
+        } else if (e.type == SDL_KEYDOWN) {
+            event.type = Event_KEY;
+            event.value = e.key.keysym.sym;
+            break;
+        } else {
+            log_debug("Unknown event type %d", e.type);
+        }
+    }
+    return event;
+}
 
+void io_flush(struct Context const *context, struct Colour colour) {
+    SDL_SetRenderDrawColor(
+        context->renderer,
+        colour.red,
+        colour.green,
+        colour.blue,
+        0xff
+    );
+    SDL_RenderClear(context->renderer);
+}
+
+void io_flushGradient(
+    struct Context const *context,
+    struct Colour top,
+    struct Colour bottom
+) {
+    SDL_Rect line = context->dst;
+    line.x = 0;
+    line.y = 0;
+    line.w = context->size.x;
+    struct Colour increment = util_cFDiv(
+        util_cSub(bottom, top),
+        context->dimensions.y
+    );
+    for (int i = 0; i < context->dimensions.y; i++) {
+        SDL_SetRenderDrawColor(
+            context->renderer,
+            top.red,
+            top.green,
+            top.blue,
+            0xff
+        );
+        SDL_RenderFillRect(context->renderer, &line);
+        line.y += line.h;
+        top = util_cAdd(top, increment);
+    }
 }
 
 void io_flushRect(
@@ -108,9 +169,8 @@ void io_flushRect(
     struct Colour colour,
     struct Rect rect
 ) {
-
 }
 
 void io_frame(struct Context const *context) {
-
+    SDL_RenderPresent(context->renderer);
 }

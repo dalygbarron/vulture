@@ -5,9 +5,9 @@
  * Represents a nice 24 bit colour.
  */
 struct Colour {
-    unsigned char red;
-    unsigned char green;
-    unsigned char blue;
+    short red;
+    short green;
+    short blue;
 };
 
 #endif

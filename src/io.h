@@ -22,11 +22,32 @@ extern struct Colour const io_WHITE;
 int io_execute(int (*body)(struct Context const *));
 
 /**
+ * Returns an input event that must be dealt with, or a no events event if
+ * there are none. The idea is that you call this function in a loop and handle
+ * all the events until there are none left.
+ * @return an event object describing the next event in the queue.
+ */
+struct Event io_handleInput();
+
+/**
  * Fills the screen with a nice colour.
  * @param context is the context with the screen to render to.
  * @param colour  is the colour to flush it with.
  */
 void io_flush(struct Context const *context, struct Colour colour);
+
+/**
+ * Fills the screen with a nice gradient that goes from the top of the screen
+ * to the bottom.
+ * @param context is the rendering context to render with.
+ * @param top     is the colour at the top.
+ * @param bottom  is the colour at the bottom.
+ */
+void io_flushGradient(
+    struct Context const *context,
+    struct Colour top,
+    struct Colour bottom
+);
 
 /**
  * Fills a rectangle on the screen with a nice colour.
