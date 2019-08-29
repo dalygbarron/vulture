@@ -1,22 +1,22 @@
 #include "io.h"
 #include "log.h"
+#include "engine.h"
 #include "model/Event.h"
+#include "model/State.h"
+#include "model/Context.h"
 #include <stdio.h>
 
 int body(struct Context const *context) {
-    struct Colour bottom = io_GREEN;
+    struct State *state = engine_createState();
+    engine_render(context, state);
     while (1) {
-        while (1) {
-            struct Event event = io_handleInput();
-            if (event.type == Event_NOTHING) {
-                break;
-            } else if (event.type == Event_QUIT) {
-                return 69;
-            }
+        struct Event event = io_handleInput();
+        if (event.type == Event_QUIT) {
+            break;
+        } else if (event.type != Event_NOTHING) {
+            engine_update(state, event);
+            engine_render(context, state);
         }
-        io_flushGradient(context, bottom, io_BLUE);
-        bottom.red++;
-        io_frame(context);
     }
     return 69;
 }

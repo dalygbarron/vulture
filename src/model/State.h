@@ -1,16 +1,25 @@
 #ifndef STATE_H
 #define STATE_H
 
+#include "src/model/Mode.h"
+#include "src/model/World.h"
+#include "src/model/Vector.h"
+
+#define State_S_SIZE 256
+
 /**
- * Represents the game's current state.
- * TODO: All of the maps are meant to fit together in a 3d grid, but there is
- *       no point allocating all of the maps at the same time since they are
- *       only going to be 
+ * Represents the game program's current state.
  */
 struct State {
-    struct Map **maps;
-    struct Creature *player;
-    int playerMap;
+    enum Mode mode;
+    struct World *world;
+    int a;
+    int b;
+    int c;
+    struct Vector va;
+    struct Vector vb;
+    char sa[State_S_SIZE];
+    char sb[State_S_SIZE];
 };
 
 #endif

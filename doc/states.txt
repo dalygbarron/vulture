@@ -1,0 +1,80 @@
+STATES
+===============================================================================
+
+Instead of having a gui system with all these kinds of callbacks and other
+shit, the game engine will work as a state machine which operates on the game
+state object. The game state object will not store the state though, as the
+state will more control how the game program is working on the game state at
+the current time. The state will control both how the game program works, and
+how it renders so it will need to do both things.
+
+This also means that we will need both a game state object and a game program
+state object. Maybe we can define these as the "world" being that state of the
+played game, and the "state" being the state of the game program. Though
+I imagine that the game world will be stored within the game state since at the
+start of the program in the menu it will probably not even have a world loaded
+yet.
+
+This means that every single dialogue box and menu in the game is going to need
+to be defined as it's own game state (well I will try to generalise some of
+them but there is only so much that can be done for that one).
+
+Certain states are going to have state that they need to remember in between
+frames, and these will be stored in registers A, B, C, VA, VB, S, M. There is
+also the game world object which can store info if it's actually game related.
+A, B and C are integers, VA and VB are vectors, S is a character buffer with
+some constant length, and M is a void pointer to a buffer with some constant
+length which you can put whatever in.
+
+When entering a state, values in certain registers may be considered to be
+arguments to the state. Also, since states are just values of an enum, they can
+be used as arguments, for example to tell one state that when it has finished,
+it should return to another state, which could be used for generalised input
+menus.
+
+There will also have to be an init flag which tells you when this is the first
+frame of the current state so it can set itself up.
+
+Also, we need to think about how the program loop is going to work with this.
+Ok it will still be event based, and for each state there will be seperate
+render and logic functions. We could also add init functions but that would be
+a bit over the top. Hmmm, maybe we need to, who knows.
+
+Maybe we could make one big init, logic, and render function and just have
+switch statements inside them.
+
+STATUS_START
+===========
+
+init:
+    nothing.
+
+main:
+    display a nice pic for a few frames and then transition to
+    STATUS_MAIN_MENU.
+
+STATUS_MAIN_MENU
+================
+
+init:
+    set A to 0
+
+main:
+    move A according to arrow key presses and display the options "existing
+    game", "new game", "options", and "quit" with the one whose position is
+    equal to A being highlighted.
+
+    When the user presses the enter key, then it goes to one of the states
+    EXISTING_MENU, NEW_MENU, OPTIONS_MENU, or it closes if that one was hit.
+
+STATUS_READ_STRING
+==================
+
+init:
+    Move value of S register to M register. empty S register, set B register to
+    0.
+
+main:
+    When user presses text keys add their input to the S register and increment
+    B. If user presses enter key set S[B] to 0 and transition to state stored
+    in A.

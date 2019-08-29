@@ -62,6 +62,71 @@ void io_flushRect(
 );
 
 /**
+ * Draws a character on the screen at the given spot.
+ * @param context   is the rendering context.
+ * @param character is the character to draw.
+ * @param pos       is the location on the screen to draw it.
+ * @param colour    is the colour to draw it in.
+ */
+void io_blitCharacter(
+    struct Context const *context,
+    char character,
+    struct Vector pos,
+    struct Colour colour
+);
+
+/**
+ * Draws one icon on the screen at the given spot.
+ * @param context is the rendering context.
+ * @param icon    is the icon to draw.
+ * @param pos     is the location on the screen to draw it.
+ * @param fg      is the colour to draw it in.
+ * @param bg      is the colour to place behind it 
+ */
+void io_blitIcon(
+    struct Context const *context,
+    char icon,
+    struct Vector pos,
+    struct Colour fg,
+    struct Colour bg
+);
+
+/**
+ * Draws a box on the screen with a nice border.
+ * @param context    is the drawing context.
+ * @param rect       is the dimensions of the box to draw.
+ * @param horizontal is the icon to use for horizontal border segments.
+ * @param vertical   is the icon to use for vertical border segments.
+ * @param corner     is the icon to use for corner bits.
+ * @param fg         is the colour of the border.
+ * @param bg         is the colour of the background.
+ */
+void io_blitBox(
+    struct Context const *context,
+    struct Rect rect,
+    char horizontal,
+    char vertical,
+    char corner,
+    struct Colour fg,
+    struct Colour bg
+);
+
+/**
+ * Draws a box that lets the user select an answer to a question / prompt.
+ * @param context  is the rendering context.
+ * @param rect     is the rectangle within to draw it all.
+ * @param selected is the index of the item which is currently selected.
+ * @param ...      strings that have got the potential answers in them.
+ */
+void io_questionBox(
+    struct Context const *context,
+    struct Rect rect,
+    char const *title,
+    int selected,
+    ...
+);
+
+/**
  * Render the current frame to the screen and such. You have gotta call this
  * after you do some drawing operations.
  * @param context is the context of the screen to make the frame on.

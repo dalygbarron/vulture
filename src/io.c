@@ -119,8 +119,6 @@ struct Event io_handleInput() {
             event.type = Event_KEY;
             event.value = e.key.keysym.sym;
             break;
-        } else {
-            log_debug("Unknown event type %d", e.type);
         }
     }
     return event;
@@ -169,6 +167,66 @@ void io_flushRect(
     struct Colour colour,
     struct Rect rect
 ) {
+}
+
+void io_blitCharacter(
+    struct Context const *context,
+    char character,
+    struct Vector pos,
+    struct Colour colour
+) {
+
+}
+
+void io_blitIcon(
+    struct Context const *context,
+    char icon,
+    struct Vector pos,
+    struct Colour fg,
+    struct Colour bg
+) {
+
+}
+
+void io_blitBox(
+    struct Context const *context,
+    struct Rect rect,
+    char horizontal,
+    char vertical,
+    char corner,
+    struct Colour fg,
+    struct Colour bg
+) {
+    io_flushRect(context, bg, rect);
+    struct Vector pos;
+    pos.y = rect.pos.y;
+    for (pos.x = rect.pos.x + 1; pos.x < rect.pos.x + rect.size.x; pos.x++) {
+        io_blitIcon(context, horizontal, pos, fg);
+    }
+    pos.y = rect.pos.y + rect.size.y;
+    for (pos.x = rect.pos.x + 1; pos.x < rect.pos.x + rect.size.x; pos.x++) {
+        io_blitIcon(context, horizontal, pos, fg);
+    }
+    pos.x = rect.pos.x;
+    for (pos.y = rect.pos.y + 1; pos.y < rect.pos.y + rect.size.y; pos.y++) {
+        io_blitIcon(context, vertical, pos, fg);
+    }
+    pos.x = rect.pos.x + rect.size.x;
+    for (pos.y = rect.pos.y + 1; pos.y < rect.pos.y + rect.size.y; pos.y++) {
+        io_blitIcon(context, vertical, pos, fg);
+    }
+}
+
+void io_questionBox(
+    struct Context const *context,
+    struct Rect rect,
+    char const *title,
+    int selected,
+    ...
+) {
+    io_flushRect(context, FUCK, rect);
+    io_blitLine(context, title, rect.pos);
+
 }
 
 void io_frame(struct Context const *context) {

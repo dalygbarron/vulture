@@ -1,7 +1,7 @@
 CC=gcc
 OUT=main
 START=main.o
-OBJS=io.o log.o util.o
+OBJS=io.o log.o util.o engine.o
 C_FLAGS=-I . -std=c11
 LINKER_FLAGS=-lSDL2 -lSDL2_image
 
@@ -12,3 +12,7 @@ $(OUT): $(OBJS) $(START)
 
 %.o: src/%.c
 	$(CC) -c -o $@ $< $(C_FLAGS)
+
+clean:
+	rm -f *.o
+	rm -f $(OUT)
