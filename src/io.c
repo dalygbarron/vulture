@@ -13,6 +13,8 @@
 struct Colour const io_RED = {255, 0, 0};
 struct Colour const io_GREEN = {0, 255, 0};
 struct Colour const io_BLUE = {0, 0, 255};
+struct Colour const io_YELLOW = {255, 255, 0};
+struct Colour const io_NAVY = {0, 0, 25};
 struct Colour const io_BLACK = {0, 0, 0};
 struct Colour const io_WHITE = {255, 255, 255};
 
@@ -92,7 +94,7 @@ static void destroyContext(struct Context *context) {
     // TODO: this.
 }
 
-int io_execute(int (*body)(struct Context const *)) {
+int io_execute(int (*body)(struct Context *)) {
     struct Vector dimensions = {80, 50};
     struct Context *context = makeContext(
         "title",
@@ -124,7 +126,7 @@ struct Event io_handleInput() {
     return event;
 }
 
-void io_flush(struct Context const *context, struct Colour colour) {
+void io_flush(struct Context *context, struct Colour colour) {
     SDL_SetRenderDrawColor(
         context->renderer,
         colour.red,
@@ -136,7 +138,7 @@ void io_flush(struct Context const *context, struct Colour colour) {
 }
 
 void io_flushGradient(
-    struct Context const *context,
+    struct Context *context,
     struct Colour top,
     struct Colour bottom
 ) {
@@ -163,33 +165,70 @@ void io_flushGradient(
 }
 
 void io_flushRect(
-    struct Context const *context,
+    struct Context *context,
     struct Colour colour,
     struct Rect rect
 ) {
+    SDL_Rect box = {rect.pos.x, rect.pos.y, rect.size.x, rect.size.y};
+    box.x *= context->src.w;
+    box.w *= context->src.w;
+    box.y *= context->src.h;
+    box.h *= context->src.h;
+    SDL_SetRenderDrawColor(
+        context->renderer,
+        colour.red,
+        colour.green,
+        colour.blue,
+        0xff
+    );
+    SDL_RenderFillRect(context->renderer, &box);
 }
 
 void io_blitCharacter(
-    struct Context const *context,
-    char character,
+    struct Context *context,
+    unsigned char c,
     struct Vector pos,
     struct Colour colour
 ) {
-
+    context->src.x = (c % const_TILE_COUNT) * context->src.w;
+    context->src.y = c / const_TILE_COUNT * context->src.h;
+    context->dst.x = pos.x * context->src.w;
+    context->dst.y = pos.y * context->src.h;
+    SDL_SetTextureColorMod(
+        context->tileset,
+        colour.red,
+        colour.green,
+        colour.blue
+    );
+    SDL_RenderCopy(
+        context->renderer,
+        context->tileset,
+        &context->src,
+        &context->dst
+    );
 }
 
 void io_blitIcon(
-    struct Context const *context,
+    struct Context *context,
     char icon,
     struct Vector pos,
     struct Colour fg,
     struct Colour bg
 ) {
+    // TODO: this. It's just blit character with blitting a colour below.
+}
+
+int io_blitString(
+    struct Context *context,
+    char const *string,
+    struct Rect bounds,
+    struct Colour colour
+) {
 
 }
 
 void io_blitBox(
-    struct Context const *context,
+    struct Context *context,
     struct Rect rect,
     char horizontal,
     char vertical,
@@ -200,35 +239,40 @@ void io_blitBox(
     io_flushRect(context, bg, rect);
     struct Vector pos;
     pos.y = rect.pos.y;
-    for (pos.x = rect.pos.x + 1; pos.x < rect.pos.x + rect.size.x; pos.x++) {
-        io_blitIcon(context, horizontal, pos, fg);
+    for (pos.x = rect.pos.x + 1; pos.x < rect.pos.x + rect.size.x - 1; pos.x++) {
+        io_blitCharacter(context, horizontal, pos, fg);
     }
-    pos.y = rect.pos.y + rect.size.y;
-    for (pos.x = rect.pos.x + 1; pos.x < rect.pos.x + rect.size.x; pos.x++) {
-        io_blitIcon(context, horizontal, pos, fg);
+    pos.y = rect.pos.y + rect.size.y - 1;
+    for (pos.x = rect.pos.x + 1; pos.x < rect.pos.x + rect.size.x - 1; pos.x++) {
+        io_blitCharacter(context, horizontal, pos, fg);
     }
     pos.x = rect.pos.x;
-    for (pos.y = rect.pos.y + 1; pos.y < rect.pos.y + rect.size.y; pos.y++) {
-        io_blitIcon(context, vertical, pos, fg);
+    for (pos.y = rect.pos.y + 1; pos.y < rect.pos.y + rect.size.y - 1; pos.y++) {
+        io_blitCharacter(context, vertical, pos, fg);
     }
-    pos.x = rect.pos.x + rect.size.x;
-    for (pos.y = rect.pos.y + 1; pos.y < rect.pos.y + rect.size.y; pos.y++) {
-        io_blitIcon(context, vertical, pos, fg);
+    pos.x = rect.pos.x + rect.size.x - 1;
+    for (pos.y = rect.pos.y + 1; pos.y < rect.pos.y + rect.size.y - 1; pos.y++) {
+        io_blitCharacter(context, vertical, pos, fg);
     }
+    pos = rect.pos;
+    io_blitCharacter(context, corner, pos, fg);
+    pos.x += rect.size.x - 1;
+    io_blitCharacter(context, corner, pos, fg);
+    pos.y += rect.size.y - 1;
+    io_blitCharacter(context, corner, pos, fg);
+    pos.x -= rect.size.x - 1;
+    io_blitCharacter(context, corner, pos, fg);
 }
 
-void io_questionBox(
-    struct Context const *context,
-    struct Rect rect,
-    char const *title,
+void io_options(
+    struct Context *context,
+    struct Rect bounds,
     int selected,
     ...
 ) {
-    io_flushRect(context, FUCK, rect);
-    io_blitLine(context, title, rect.pos);
-
+    // TODO: this is going to be a pain in the ass.
 }
 
-void io_frame(struct Context const *context) {
+void io_frame(struct Context *context) {
     SDL_RenderPresent(context->renderer);
 }

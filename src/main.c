@@ -6,7 +6,7 @@
 #include "model/Context.h"
 #include <stdio.h>
 
-int body(struct Context const *context) {
+int body(struct Context *context) {
     struct State *state = engine_createState();
     engine_render(context, state);
     while (1) {

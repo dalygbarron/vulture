@@ -5,11 +5,12 @@
 #include "model/Vector.h"
 #include "model/Rect.h"
 #include "model/Colour.h"
-#include <SDL2/SDL.h>
 
 extern struct Colour const io_RED;
 extern struct Colour const io_GREEN;
 extern struct Colour const io_BLUE;
+extern struct Colour const io_YELLOW;
+extern struct Colour const io_NAVY;
 extern struct Colour const io_BLACK;
 extern struct Colour const io_WHITE;
 
@@ -19,7 +20,7 @@ extern struct Colour const io_WHITE;
  * @param int (*)(Context const *) is a pointer to the game body code to run.
  * @return the value returned by the game body.
  */
-int io_execute(int (*body)(struct Context const *));
+int io_execute(int (*body)(struct Context *));
 
 /**
  * Returns an input event that must be dealt with, or a no events event if
@@ -34,7 +35,7 @@ struct Event io_handleInput();
  * @param context is the context with the screen to render to.
  * @param colour  is the colour to flush it with.
  */
-void io_flush(struct Context const *context, struct Colour colour);
+void io_flush(struct Context *context, struct Colour colour);
 
 /**
  * Fills the screen with a nice gradient that goes from the top of the screen
@@ -44,7 +45,7 @@ void io_flush(struct Context const *context, struct Colour colour);
  * @param bottom  is the colour at the bottom.
  */
 void io_flushGradient(
-    struct Context const *context,
+    struct Context *context,
     struct Colour top,
     struct Colour bottom
 );
@@ -56,7 +57,7 @@ void io_flushGradient(
  * @param rect    is the rectangle to fill with colour.
  */
 void io_flushRect(
-    struct Context const *context,
+    struct Context *context,
     struct Colour colour,
     struct Rect rect
 );
@@ -64,13 +65,13 @@ void io_flushRect(
 /**
  * Draws a character on the screen at the given spot.
  * @param context   is the rendering context.
- * @param character is the character to draw.
+ * @param c  b      is the character to draw.
  * @param pos       is the location on the screen to draw it.
  * @param colour    is the colour to draw it in.
  */
 void io_blitCharacter(
-    struct Context const *context,
-    char character,
+    struct Context *context,
+    unsigned char c,
     struct Vector pos,
     struct Colour colour
 );
@@ -84,11 +85,29 @@ void io_blitCharacter(
  * @param bg      is the colour to place behind it 
  */
 void io_blitIcon(
-    struct Context const *context,
+    struct Context *context,
     char icon,
     struct Vector pos,
     struct Colour fg,
     struct Colour bg
+);
+
+/**
+ * Draws a string onto the screen at the given location.
+ * @param context is the rendering context to draw to.
+ * @param string  is the text to write.
+ * @param bounds  is the bounding box to fit the string inside of. It will be
+ *                fully respected.
+ * @param colour  is the colour to write the text in. Whatever is underneath
+ *                the text will stay there.
+ * @return the number of lines tall the text ended up being after being fitted
+ *         inside the bounds.
+ */
+int io_blitString(
+    struct Context *context,
+    char const *string,
+    struct Rect bounds,
+    struct Colour colour
 );
 
 /**
@@ -102,7 +121,7 @@ void io_blitIcon(
  * @param bg         is the colour of the background.
  */
 void io_blitBox(
-    struct Context const *context,
+    struct Context *context,
     struct Rect rect,
     char horizontal,
     char vertical,
@@ -114,14 +133,15 @@ void io_blitBox(
 /**
  * Draws a box that lets the user select an answer to a question / prompt.
  * @param context  is the rendering context.
- * @param rect     is the rectangle within to draw it all.
- * @param selected is the index of the item which is currently selected.
+ * @param bounds   is where the options will start and the dimensions within
+ *                 which they will be bounded.
+ * @param selected is the index of the item which is currently selected. If the
+ *                 given index is less than 0 then no option is highlighted.
  * @param ...      strings that have got the potential answers in them.
  */
-void io_questionBox(
-    struct Context const *context,
-    struct Rect rect,
-    char const *title,
+void io_options(
+    struct Context *context,
+    struct Rect bounds,
     int selected,
     ...
 );
@@ -131,6 +151,6 @@ void io_questionBox(
  * after you do some drawing operations.
  * @param context is the context of the screen to make the frame on.
  */
-void io_frame(struct Context const *context);
+void io_frame(struct Context *context);
 
 #endif

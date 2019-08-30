@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 void initStart(struct State *state) {
-
+    state->a = 0;
 }
 
 void initMainMenu(struct State *state) {
@@ -32,7 +32,10 @@ void initDead(struct State *state) {
 }
 
 void updateStart(struct State *state, struct Event event) {
-    engine_transition(state, Mode_MAIN_MENU);
+    state->a++;
+    if (state->a > 2) {
+        engine_transition(state, Mode_MAIN_MENU);
+    }
 }
 
 void updateMainMenu(struct State *state, struct Event event) {
@@ -59,7 +62,7 @@ void updateDead(struct State *state, struct Event event) {
 
 }
 
-void renderStart(struct Context const *context, struct State *state) {
+void renderStart(struct Context *context, struct State *state) {
     struct Colour colour;
     colour.red = rand() % 255;
     colour.green = rand() % 255;
@@ -67,27 +70,42 @@ void renderStart(struct Context const *context, struct State *state) {
     io_flushGradient(context, io_GREEN, colour);
 }
 
-void renderMainMenu(struct Context const *context, struct State *state) {
+void renderMainMenu(struct Context *context, struct State *state) {
+    struct Rect bounds = {30, 10, 10, 10};
+    io_flushGradient(context, io_NAVY, io_BLACK);
+    io_blitBox(
+        context,
+        bounds,
+        0xcd,
+        0xba,
+        0xce,
+        io_WHITE,
+        io_NAVY
+    );
+    bounds.pos.x += 1;
+    bounds.pos.y += 1;
+    bounds.size.x -= 2;
+    bounds.size.y -= 2;
+    io_blitString(context, "Hello my friends.", bounds, io_WHITE);
+}
+
+void renderNewMenu(struct Context *context, struct State *state) {
 
 }
 
-void renderNewMenu(struct Context const *context, struct State *state) {
+void renderExistingMenu(struct Context *context, struct State *state) {
 
 }
 
-void renderExistingMenu(struct Context const *context, struct State *state) {
+void renderOptionsMenu(struct Context *context, struct State *state) {
 
 }
 
-void renderOptionsMenu(struct Context const *context, struct State *state) {
+void renderReadString(struct Context *context, struct State *state) {
 
 }
 
-void renderReadString(struct Context const *context, struct State *state) {
-
-}
-
-void renderDead(struct Context const *context, struct State *state) {
+void renderDead(struct Context *context, struct State *state) {
 
 }
 
@@ -146,10 +164,10 @@ void engine_transition(struct State *state, enum Mode mode) {
 void engine_update(struct State *state, struct Event event) {
     switch (state->mode) {
         case Mode_START:
-            engine_transition(state, Mode_MAIN_MENU);
+            updateStart(state, event);
             break;
         case Mode_MAIN_MENU:
-            // do stuff.
+            updateMainMenu(state, event);
             break;
         case Mode_NEW_MENU:
             // do stuff.
@@ -169,13 +187,13 @@ void engine_update(struct State *state, struct Event event) {
     }
 }
 
-void engine_render(struct Context const *context, struct State *state) {
+void engine_render(struct Context *context, struct State *state) {
     switch (state->mode) {
     case Mode_START:
         renderStart(context, state);
         break;
     case Mode_MAIN_MENU:
-        // do stuff.
+        renderMainMenu(context, state);
         break;
     case Mode_NEW_MENU:
         // do stuff.

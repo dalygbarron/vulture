@@ -31,6 +31,6 @@ void engine_update(struct State *state, struct Event event);
  * @param context is the rendering context.
  * @param state   is the state of the program.
  */
-void engine_render(struct Context const *context, struct State *state);
+void engine_render(struct Context *context, struct State *state);
 
 #endif
