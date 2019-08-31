@@ -19,6 +19,7 @@ struct State {
     int d;
     int e;
     int f;
+    int g;
     struct Vector va;
     struct Vector vb;
     char sa[State_S_SIZE];

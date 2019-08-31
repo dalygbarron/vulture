@@ -13,6 +13,12 @@
 void modes_initStart(struct State *state);
 
 /**
+ * Initialises the notice mode.
+ * @param state is the state of the program.
+ */
+void modes_initNotice(struct State *state);
+
+/**
  * Initialises the main menu mode.
  * @param state is the state of the program.
  */
@@ -54,6 +60,13 @@ void modes_initDead(struct State *state);
  * @param event is the event that is updating the program.
  */
 void modes_updateStart(struct State *state, struct Event event);
+
+/**
+ * Updates the notice mode.
+ * @param state is the state of the program.
+ * @param event is the event it is responding to.
+ */
+void modes_updateNotice(struct State *state, struct Event event);
 
 /**
  * Updates the main menu mode.
@@ -102,6 +115,13 @@ void modes_updateDead(struct State *state, struct Event event);
  * @param state   is the state of the program.
  */
 void modes_renderStart(struct Context *context, struct State *state);
+
+/**
+ * Renders the notice  mode.
+ * @param context is the rendering context.
+ * @param state   is the state of the program.
+ */
+void modes_renderNotice(struct Context *context, struct State *state);
 
 /**
  * Renders the main menu mode.

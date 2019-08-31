@@ -11,8 +11,10 @@ struct State *engine_createState() {
     state->world = 0;
     state->sa[0] = 0;
     state->sb[0] = 0;
-    state->sc[0] = 0;
-    state->sd[0] = 0;
+    state->ca = 0;
+    state->cb = 0;
+    state->cc = 0;
+    state->cd = 0;
     engine_transition(state, Mode_START);
     return state;
 }
@@ -36,6 +38,9 @@ void engine_transition(struct State *state, enum Mode mode) {
     switch(mode) {
         case Mode_START:
             modes_initStart(state);
+            break;
+        case Mode_NOTICE:
+            modes_initNotice(state);
             break;
         case Mode_MAIN_MENU:
             modes_initMainMenu(state);
@@ -65,6 +70,9 @@ void engine_update(struct State *state, struct Event event) {
         case Mode_START:
             modes_updateStart(state, event);
             break;
+        case Mode_NOTICE:
+            modes_updateNotice(state, event);
+            break;
         case Mode_MAIN_MENU:
             modes_updateMainMenu(state, event);
             break;
@@ -91,6 +99,9 @@ void engine_render(struct Context *context, struct State *state) {
     case Mode_START:
         modes_renderStart(context, state);
         break;
+    case Mode_NOTICE:
+        modes_renderNotice(context, state);
+        break;
     case Mode_MAIN_MENU:
         modes_renderMainMenu(context, state);
         break;
@@ -111,4 +122,18 @@ void engine_render(struct Context *context, struct State *state) {
         break;
     }
     io_frame(context);
+}
+
+int engine_choice(struct State *state, int index) {
+    switch(index) {
+        case 0: return state->a;
+        case 1: return state->b;
+        case 2: return state->c;
+        case 3: return state->d;
+        case 4: return state->e;
+        case 5: return state->f;
+        default:
+            log_error("%d is not a valid register index", index);
+            return -1;
+    }
 }

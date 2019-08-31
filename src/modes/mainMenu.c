@@ -1,13 +1,28 @@
 #include "src/modes.h"
 #include "src/io.h"
 #include "src/util.h"
+#include "src/engine.h"
+
+char const *options[] = {"Existing Game", "New Game", "Options", "Quit"};
 
 void modes_initMainMenu(struct State *state) {
-    state->e = 0;
+    state->a = 0;
 }
 
 void modes_updateMainMenu(struct State *state, struct Event event) {
-    state->e++;
+    if (event.value == io_ENTER) {
+        if (state->a == 0) engine_transition(state, Mode_START);
+        else if (state->a == 1) engine_transition(state, Mode_START);
+        else if (state->a == 2) engine_transition(state, Mode_START);
+        else if (state->a == 3) {
+            state->ca = "Mr Bongos";
+            state->cb = "tes test test est etstes ttez ts test es ttesz teh";
+            state->a = Mode_MAIN_MENU;
+            engine_transition(state, Mode_NOTICE);
+        }
+    } else {
+        state->a++;
+    }
 }
 
 void modes_renderMainMenu(struct Context *context, struct State *state) {
@@ -22,7 +37,7 @@ void modes_renderMainMenu(struct Context *context, struct State *state) {
         context->dimensions.x / 4,
         10,
         context->dimensions.x / 2,
-        4
+        3
     };
     io_blitBox(
         context,
@@ -34,7 +49,7 @@ void modes_renderMainMenu(struct Context *context, struct State *state) {
         io_NAVY
     );
     io_blitString(context, "Conan RL", util_inner(bounds), io_RED);
-    bounds.pos.y += 4;
+    bounds.pos.y += 3;
     bounds.size.y += 5;
     io_blitBox(
         context,
@@ -45,6 +60,5 @@ void modes_renderMainMenu(struct Context *context, struct State *state) {
         io_WHITE,
         io_NAVY
     );
-    char const *strings[] = {state->ca, state->cb, state->cc, state->cd};
-    io_options(context, util_inner(bounds), strings, state->f, state->e);
+    io_options(context, util_inner(bounds), options, 4, state->a);
 }

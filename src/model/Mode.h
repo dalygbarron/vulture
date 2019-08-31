@@ -6,6 +6,7 @@
  */
 enum Mode {
     Mode_START,
+    Mode_NOTICE,
     Mode_MAIN_MENU,
     Mode_NEW_MENU,
     Mode_EXISTING_MENU,

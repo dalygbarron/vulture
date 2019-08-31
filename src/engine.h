@@ -32,4 +32,15 @@ void engine_update(struct State *state, struct Event event);
  */
 void engine_render(struct Context *context, struct State *state);
 
+/**
+ * Chooses the value from one of the integer registers based on the value in
+ * the given index.
+ * @param state is the program state to choose in.
+ * @param index is the index of the register to choose. If you give an invalid
+ *              index then the result will just be -1.
+ * @return the value of the register for 0 -> a, 1 -> b, 2 -> c, 3 -> d, 4 ->
+ *         e, 5 -> f. and negative 1 for all other inputs.
+ */
+int engine_choice(struct State *state, int index);
+
 #endif
