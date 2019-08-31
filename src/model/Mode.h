@@ -2,7 +2,7 @@
 #define MODE_H
 
 /**
- * Defines the modes that the game program can be in.
+ * Contains the modes of the game.
  */
 enum Mode {
     Mode_START,

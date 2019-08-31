@@ -3,6 +3,7 @@
 
 #include "model/Vector.h"
 #include "model/Colour.h"
+#include "model/Rect.h"
 
 /**
  * Tells you if the given character is whitespace or not.
@@ -26,6 +27,13 @@ int util_min(int a, int b);
  * @return a if a > b, otherwise b.
  */
 int util_max(int a, int b);
+
+/**
+ * Gives you the rect that fits just inside the given one.
+ * @param rect is the rect to transform.
+ * @return the smaller rect.
+ */
+struct Rect util_inner(struct Rect rect);
 
 /**
  * Adds two vectors together and gives you the result.

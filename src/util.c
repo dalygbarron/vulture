@@ -12,6 +12,14 @@ int util_max(int a, int b) {
     return (a > b) ? a : b;
 }
 
+struct Rect util_inner(struct Rect rect) {
+    rect.pos.x++;
+    rect.pos.y++;
+    rect.size.x -= 2;
+    rect.size.y -= 2;
+    return rect;
+}
+
 struct Vector util_vAdd(struct Vector a, struct Vector b) {
     a.x += b.x;
     a.y += b.y;

@@ -86,7 +86,7 @@ void io_blitCharacter(
  */
 void io_blitCharacters(
     struct Context *context,
-    unsigned char const *c,
+    char const *c,
     int length,
     struct Vector pos,
     struct Colour colour
@@ -124,7 +124,7 @@ void io_blitIcon(
  */
 int io_blitString(
     struct Context *context,
-    unsigned char const *string,
+    char const *string,
     struct Rect bounds,
     struct Colour colour
 );
@@ -154,15 +154,18 @@ void io_blitBox(
  * @param context  is the rendering context.
  * @param bounds   is where the options will start and the dimensions within
  *                 which they will be bounded.
+ * @param strings  is the list of options
+ * @param n        is the number of options that there are.
  * @param selected is the index of the item which is currently selected. If the
- *                 given index is less than 0 then no option is highlighted.
- * @param ...      strings that have got the potential answers in them.
+ *                 given index is less than 0 or greater than or equal to n
+ *                 then no option is highlighted.
  */
 void io_options(
     struct Context *context,
     struct Rect bounds,
-    int selected,
-    ...
+    char const **strings,
+    int n,
+    int selected
 );
 
 /**

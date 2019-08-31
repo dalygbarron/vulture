@@ -210,7 +210,7 @@ void io_blitCharacter(
 
 void io_blitCharacters(
     struct Context *context,
-    unsigned char const *c,
+    char const *c,
     int length,
     struct Vector pos,
     struct Colour colour
@@ -233,7 +233,7 @@ void io_blitIcon(
 
 int io_blitString(
     struct Context *context,
-    unsigned char const *string,
+    char const *string,
     struct Rect bounds,
     struct Colour colour
 ) {
@@ -246,13 +246,14 @@ int io_blitString(
     int bottom = bounds.pos.y + bounds.size.y;
     while (writer < length - 1 && bounds.pos.y < bottom) {
         int checker = util_min(writer + bounds.size.x, length);
-        int whiteOffset = 1;
-        while (!util_whitespace(string[checker]) && string[checker] && checker > writer) {
+        int whiteoffset = 1;
+        while (!util_whitespace(string[checker]) && string[checker] &&
+            checker > writer) {
             checker--;
         }
         if (checker == writer) {
             checker = util_min(writer + bounds.size.x, length);
-            whiteOffset = 0;
+            whiteoffset = 0;
         }
         io_blitCharacters(
             context,
@@ -261,10 +262,10 @@ int io_blitString(
             bounds.pos,
             colour
         );
-        writer = checker + whiteOffset;
+        writer = checker + whiteoffset;
         bounds.pos.y++;
     }
-    return bounds.pos.y - bottom;
+    return bounds.pos.y - (bottom - bounds.size.y);
 }
 
 void io_blitBox(
@@ -307,10 +308,16 @@ void io_blitBox(
 void io_options(
     struct Context *context,
     struct Rect bounds,
-    int selected,
-    ...
+    char const **strings,
+    int n,
+    int selected
 ) {
-    // TODO: this is going to be a pain in the ass.
+    for (int i = 0; i < n; i++) {
+        struct Colour colour = (i == selected) ? io_RED : io_WHITE;
+        int length = io_blitString(context, strings[i], bounds, colour);
+        bounds.pos.y += length;
+        bounds.size.y -= length;
+    }
 }
 
 void io_frame(struct Context *context) {

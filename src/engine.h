@@ -1,7 +1,6 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include "src/model/Mode.h"
 #include "src/model/State.h"
 #include "src/model/Context.h"
 #include "src/model/Event.h"
