@@ -18,6 +18,49 @@ struct Colour const io_NAVY = {0, 0, 25};
 struct Colour const io_BLACK = {0, 0, 0};
 struct Colour const io_WHITE = {255, 255, 255};
 
+int const io_UP = SDLK_UP;
+int const io_DOWN = SDLK_DOWN;
+int const io_LEFT = SDLK_LEFT;
+int const io_RIGHT = SDLK_RIGHT;
+int const io_ESC = SDLK_ESCAPE;
+int const io_ENTER = SDLK_RETURN;
+int const io_0 = SDLK_0;
+int const io_1 = SDLK_1;
+int const io_2 = SDLK_2;
+int const io_3 = SDLK_3;
+int const io_4 = SDLK_4;
+int const io_5 = SDLK_5;
+int const io_6 = SDLK_6;
+int const io_7 = SDLK_7;
+int const io_8 = SDLK_8;
+int const io_9 = SDLK_9;
+int const io_A = SDLK_a;
+int const io_B = SDLK_b;
+int const io_C = SDLK_c;
+int const io_D = SDLK_d;
+int const io_E = SDLK_e;
+int const io_F = SDLK_f;
+int const io_G = SDLK_g;
+int const io_H = SDLK_h;
+int const io_I = SDLK_i;
+int const io_J = SDLK_j;
+int const io_K = SDLK_k;
+int const io_L = SDLK_l;
+int const io_M = SDLK_m;
+int const io_N = SDLK_n;
+int const io_O = SDLK_o;
+int const io_P = SDLK_p;
+int const io_Q = SDLK_q;
+int const io_R = SDLK_r;
+int const io_S = SDLK_s;
+int const io_T = SDLK_t;
+int const io_U = SDLK_u;
+int const io_V = SDLK_v;
+int const io_W = SDLK_w;
+int const io_X = SDLK_x;
+int const io_Y = SDLK_y;
+int const io_Z = SDLK_z;
+
 static struct Context *makeContext(
         char const *title,
         int fullscreen,
@@ -78,7 +121,6 @@ static struct Context *makeContext(
         return 0;
     }
     SDL_FreeSurface(loadedSurface);
-    // Turn off vsync.
     // Set up the tiling rectangles.
     SDL_QueryTexture(context->tileset, 0, 0, &context->src.w, &context->src.h);
     context->src.w /= const_TILE_COUNT;

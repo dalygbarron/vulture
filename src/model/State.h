@@ -16,10 +16,18 @@ struct State {
     int a;
     int b;
     int c;
+    int d;
+    int e;
+    int f;
     struct Vector va;
     struct Vector vb;
     char sa[State_S_SIZE];
     char sb[State_S_SIZE];
+    char const *ca;
+    char const *cb;
+    char const *cc;
+    char const *cd;
+    void *p;
 };
 
 #endif

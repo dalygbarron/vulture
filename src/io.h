@@ -14,6 +14,49 @@ extern struct Colour const io_NAVY;
 extern struct Colour const io_BLACK;
 extern struct Colour const io_WHITE;
 
+extern int const io_UP;
+extern int const io_DOWN;
+extern int const io_LEFT;
+extern int const io_RIGHT;
+extern int const io_ESC;
+extern int const io_ENTER;
+extern int const io_0;
+extern int const io_1;
+extern int const io_2;
+extern int const io_3;
+extern int const io_4;
+extern int const io_5;
+extern int const io_6;
+extern int const io_7;
+extern int const io_8;
+extern int const io_9;
+extern int const io_A;
+extern int const io_B;
+extern int const io_C;
+extern int const io_D;
+extern int const io_E;
+extern int const io_F;
+extern int const io_G;
+extern int const io_H;
+extern int const io_I;
+extern int const io_J;
+extern int const io_K;
+extern int const io_L;
+extern int const io_M;
+extern int const io_N;
+extern int const io_O;
+extern int const io_P;
+extern int const io_Q;
+extern int const io_R;
+extern int const io_S;
+extern int const io_T;
+extern int const io_U;
+extern int const io_V;
+extern int const io_W;
+extern int const io_X;
+extern int const io_Y;
+extern int const io_Z;
+
 /**
  * Executes the body of the game within the lifespan of the technical
  * context within which the game is running.

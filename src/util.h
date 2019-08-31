@@ -36,6 +36,14 @@ int util_max(int a, int b);
 struct Rect util_inner(struct Rect rect);
 
 /**
+ * Creates a vector.
+ * @param x is the x component.
+ * @param y is the y component.
+ * @return the new vector of (x, y).
+ */
+struct Vector util_v(int x, int y);
+
+/**
  * Adds two vectors together and gives you the result.
  * @param a is the first vector.
  * @param b is the second vector.

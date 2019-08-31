@@ -20,6 +20,11 @@ struct Rect util_inner(struct Rect rect) {
     return rect;
 }
 
+struct Vector util_v(int x, int y) {
+    struct Vector vector = {x, y};
+    return vector;
+}
+
 struct Vector util_vAdd(struct Vector a, struct Vector b) {
     a.x += b.x;
     a.y += b.y;

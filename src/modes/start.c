@@ -10,6 +10,16 @@ void modes_initStart(struct State *state) {
 void modes_updateStart(struct State *state, struct Event event) {
     state->a++;
     if (state->a > 2) {
+        state->ca = "Continue Game";
+        state->cb = "New Game";
+        state->cc = "Options";
+        state->cd = "Quit";
+        state->a = Mode_EXISTING_MENU;
+        state->b = Mode_NEW_MENU;
+        state->c = Mode_OPTIONS_MENU;
+        // state->d = Mode_QUIT;
+        // TODO: ADD A Mode_QUIT so that genericised modes can use it.
+        state->f = 4;
         engine_transition(state, Mode_MAIN_MENU);
     }
 }

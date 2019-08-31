@@ -11,6 +11,8 @@ struct State *engine_createState() {
     state->world = 0;
     state->sa[0] = 0;
     state->sb[0] = 0;
+    state->sc[0] = 0;
+    state->sd[0] = 0;
     engine_transition(state, Mode_START);
     return state;
 }
