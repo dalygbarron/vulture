@@ -8,7 +8,7 @@ void initStart(struct State *state) {
 }
 
 void initMainMenu(struct State *state) {
-
+    state->a = 4;
 }
 
 void initNewMenu(struct State *state) {
@@ -39,7 +39,7 @@ void updateStart(struct State *state, struct Event event) {
 }
 
 void updateMainMenu(struct State *state, struct Event event) {
-
+    state->a++;
 }
 
 void updateNewMenu(struct State *state, struct Event event) {
@@ -71,7 +71,7 @@ void renderStart(struct Context *context, struct State *state) {
 }
 
 void renderMainMenu(struct Context *context, struct State *state) {
-    struct Rect bounds = {30, 10, 10, 10};
+    struct Rect bounds = {30, 10, state->a, 10};
     io_flushGradient(context, io_NAVY, io_BLACK);
     io_blitBox(
         context,
@@ -86,7 +86,7 @@ void renderMainMenu(struct Context *context, struct State *state) {
     bounds.pos.y += 1;
     bounds.size.x -= 2;
     bounds.size.y -= 2;
-    io_blitString(context, "Hello my friends.", bounds, io_WHITE);
+    io_blitString(context, "Hello my friends. I am readier than ever. TO KILL.", bounds, io_WHITE);
 }
 
 void renderNewMenu(struct Context *context, struct State *state) {

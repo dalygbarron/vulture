@@ -1,30 +1,42 @@
 #include "src/util.h"
 
-struct Vector vAdd(struct Vector a, struct Vector b) {
+int util_whitespace(char c) {
+    return c == ' ' || c == '\n' || c == '\t';
+}
+
+int util_min(int a, int b) {
+    return (a < b) ? a : b;
+}
+
+int util_max(int a, int b) {
+    return (a > b) ? a : b;
+}
+
+struct Vector util_vAdd(struct Vector a, struct Vector b) {
     a.x += b.x;
     a.y += b.y;
     return a;
 }
 
-struct Vector vSub(struct Vector a, struct Vector b) {
+struct Vector util_vSub(struct Vector a, struct Vector b) {
     a.x -= b.x;
     a.y -= b.y;
     return a;
 }
 
-struct Vector vMult(struct Vector a, struct Vector b) {
+struct Vector util_vMult(struct Vector a, struct Vector b) {
     a.x *= b.x;
     a.y *= b.y;
     return a;
 }
 
-struct Vector vDiv(struct Vector a, struct Vector b) {
+struct Vector util_vDiv(struct Vector a, struct Vector b) {
     a.x /= b.x;
     a.y /= b.y;
     return a;
 }
 
-struct Vector vMod(struct Vector a, struct Vector b) {
+struct Vector util_vMod(struct Vector a, struct Vector b) {
     a.x %= b.x;
     a.y %= b.y;
     return a;

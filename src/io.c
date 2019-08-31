@@ -208,9 +208,22 @@ void io_blitCharacter(
     );
 }
 
+void io_blitCharacters(
+    struct Context *context,
+    unsigned char const *c,
+    int length,
+    struct Vector pos,
+    struct Colour colour
+) {
+    for (int i = 0; i < length; i++) {
+        io_blitCharacter(context, c[i], pos, colour);
+        pos.x++;
+    }
+}
+
 void io_blitIcon(
     struct Context *context,
-    char icon,
+    unsigned char icon,
     struct Vector pos,
     struct Colour fg,
     struct Colour bg
@@ -220,47 +233,74 @@ void io_blitIcon(
 
 int io_blitString(
     struct Context *context,
-    char const *string,
+    unsigned char const *string,
     struct Rect bounds,
     struct Colour colour
 ) {
-
+    if (bounds.size.x < 1 || bounds.size.y < 1) {
+        log_warn("trying to blit string '%s' with empty bounds", string);
+        return - 1;
+    }
+    int length = strlen(string);
+    int writer = 0;
+    int bottom = bounds.pos.y + bounds.size.y;
+    while (writer < length - 1 && bounds.pos.y < bottom) {
+        int checker = util_min(writer + bounds.size.x, length);
+        int whiteOffset = 1;
+        while (!util_whitespace(string[checker]) && string[checker] && checker > writer) {
+            checker--;
+        }
+        if (checker == writer) {
+            checker = util_min(writer + bounds.size.x, length);
+            whiteOffset = 0;
+        }
+        io_blitCharacters(
+            context,
+            string + writer,
+            checker - writer,
+            bounds.pos,
+            colour
+        );
+        writer = checker + whiteOffset;
+        bounds.pos.y++;
+    }
+    return bounds.pos.y - bottom;
 }
 
 void io_blitBox(
     struct Context *context,
-    struct Rect rect,
-    char horizontal,
-    char vertical,
-    char corner,
+    struct Rect box,
+    unsigned char horizontal,
+    unsigned char vertical,
+    unsigned char corner,
     struct Colour fg,
     struct Colour bg
 ) {
-    io_flushRect(context, bg, rect);
+    io_flushRect(context, bg, box);
     struct Vector pos;
-    pos.y = rect.pos.y;
-    for (pos.x = rect.pos.x + 1; pos.x < rect.pos.x + rect.size.x - 1; pos.x++) {
+    pos.y = box.pos.y;
+    for (pos.x = box.pos.x + 1; pos.x < box.pos.x + box.size.x - 1; pos.x++) {
         io_blitCharacter(context, horizontal, pos, fg);
     }
-    pos.y = rect.pos.y + rect.size.y - 1;
-    for (pos.x = rect.pos.x + 1; pos.x < rect.pos.x + rect.size.x - 1; pos.x++) {
+    pos.y = box.pos.y + box.size.y - 1;
+    for (pos.x = box.pos.x + 1; pos.x < box.pos.x + box.size.x - 1; pos.x++) {
         io_blitCharacter(context, horizontal, pos, fg);
     }
-    pos.x = rect.pos.x;
-    for (pos.y = rect.pos.y + 1; pos.y < rect.pos.y + rect.size.y - 1; pos.y++) {
+    pos.x = box.pos.x;
+    for (pos.y = box.pos.y + 1; pos.y < box.pos.y + box.size.y - 1; pos.y++) {
         io_blitCharacter(context, vertical, pos, fg);
     }
-    pos.x = rect.pos.x + rect.size.x - 1;
-    for (pos.y = rect.pos.y + 1; pos.y < rect.pos.y + rect.size.y - 1; pos.y++) {
+    pos.x = box.pos.x + box.size.x - 1;
+    for (pos.y = box.pos.y + 1; pos.y < box.pos.y + box.size.y - 1; pos.y++) {
         io_blitCharacter(context, vertical, pos, fg);
     }
-    pos = rect.pos;
+    pos = box.pos;
     io_blitCharacter(context, corner, pos, fg);
-    pos.x += rect.size.x - 1;
+    pos.x += box.size.x - 1;
     io_blitCharacter(context, corner, pos, fg);
-    pos.y += rect.size.y - 1;
+    pos.y += box.size.y - 1;
     io_blitCharacter(context, corner, pos, fg);
-    pos.x -= rect.size.x - 1;
+    pos.x -= box.size.x - 1;
     io_blitCharacter(context, corner, pos, fg);
 }
 

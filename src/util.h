@@ -5,6 +5,29 @@
 #include "model/Colour.h"
 
 /**
+ * Tells you if the given character is whitespace or not.
+ * @param c is the character to check.
+ * @return 1 if it's whitespace, and 0 otherwise.
+ */
+int util_whitespace(char c);
+
+/**
+ * Returns the lesser of two values.
+ * @param a is the first value.
+ * @param b is the second value.
+ * @return a if a < b, otherwise b.
+ */
+int util_min(int a, int b);
+
+/**
+ * Returns the greater of two values.
+ * @param a is the first value.
+ * @param b is the second value.
+ * @return a if a > b, otherwise b.
+ */
+int util_max(int a, int b);
+
+/**
  * Adds two vectors together and gives you the result.
  * @param a is the first vector.
  * @param b is the second vector.

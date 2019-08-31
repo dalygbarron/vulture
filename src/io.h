@@ -65,13 +65,29 @@ void io_flushRect(
 /**
  * Draws a character on the screen at the given spot.
  * @param context   is the rendering context.
- * @param c  b      is the character to draw.
+ * @param c         is the character to draw.
  * @param pos       is the location on the screen to draw it.
  * @param colour    is the colour to draw it in.
  */
 void io_blitCharacter(
     struct Context *context,
     unsigned char c,
+    struct Vector pos,
+    struct Colour colour
+);
+
+/**
+ * Draws a sequence of characters on the screen in a line from a given spot.
+ * @param context is the rendering context.
+ * @param c       is an array containing the sequence of characters.
+ * @param length  is the number of characters to read from the array.
+ * @param pos     is the position of the first character.
+ * @param colour  is the colour to draw the characters in.
+ */
+void io_blitCharacters(
+    struct Context *context,
+    unsigned char const *c,
+    int length,
     struct Vector pos,
     struct Colour colour
 );
@@ -86,14 +102,17 @@ void io_blitCharacter(
  */
 void io_blitIcon(
     struct Context *context,
-    char icon,
+    unsigned char icon,
     struct Vector pos,
     struct Colour fg,
     struct Colour bg
 );
 
 /**
- * Draws a string onto the screen at the given location.
+ * Draws a string onto the screen at the given location. Doesn't handle new
+ * lines because I can't be bothered to code it to do so and they are not
+ * really needed. If you want to have two lines of text you can just render two
+ * strings.
  * @param context is the rendering context to draw to.
  * @param string  is the text to write.
  * @param bounds  is the bounding box to fit the string inside of. It will be
@@ -105,7 +124,7 @@ void io_blitIcon(
  */
 int io_blitString(
     struct Context *context,
-    char const *string,
+    unsigned char const *string,
     struct Rect bounds,
     struct Colour colour
 );
@@ -113,7 +132,7 @@ int io_blitString(
 /**
  * Draws a box on the screen with a nice border.
  * @param context    is the drawing context.
- * @param rect       is the dimensions of the box to draw.
+ * @param box        is the dimensions of the box to draw.
  * @param horizontal is the icon to use for horizontal border segments.
  * @param vertical   is the icon to use for vertical border segments.
  * @param corner     is the icon to use for corner bits.
@@ -122,10 +141,10 @@ int io_blitString(
  */
 void io_blitBox(
     struct Context *context,
-    struct Rect rect,
-    char horizontal,
-    char vertical,
-    char corner,
+    struct Rect box,
+    unsigned char horizontal,
+    unsigned char vertical,
+    unsigned char corner,
     struct Colour fg,
     struct Colour bg
 );
