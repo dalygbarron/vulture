@@ -5,12 +5,10 @@
 
 /**
  * Represents the game world's current state.
- * TODO: All of the maps are meant to fit together in a 3d grid, but there is
- *       no point allocating all of the maps at the same time since they are
- *       only going to be 
  */
 struct World {
-    struct Map **maps;
+    char const *name;
+    struct Map *maps[30];
     struct Creature *player;
     struct Vector playerMap;
 };

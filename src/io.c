@@ -24,6 +24,8 @@ int const io_LEFT = SDLK_LEFT;
 int const io_RIGHT = SDLK_RIGHT;
 int const io_ESC = SDLK_ESCAPE;
 int const io_ENTER = SDLK_RETURN;
+int const io_SPACE = SDLK_SPACE;
+int const io_BACKSPACE = SDLK_BACKSPACE;
 int const io_0 = SDLK_0;
 int const io_1 = SDLK_1;
 int const io_2 = SDLK_2;
@@ -168,6 +170,19 @@ struct Event io_handleInput() {
     return event;
 }
 
+int io_keyAlphanumeric(int value) {
+    return value == io_0 || value == io_1 || value == io_2 || 
+        value == io_3 || value == io_4 || value == io_5 ||
+        value == io_6 || value == io_7 || value == io_8 || value == io_9 ||
+        value == io_A || value == io_B || value == io_C || value == io_D ||
+        value == io_E || value == io_F || value == io_G || value == io_H ||
+        value == io_I || value == io_J || value == io_K || value == io_L ||
+        value == io_M || value == io_N || value == io_O || value == io_P ||
+        value == io_Q || value == io_R || value == io_S || value == io_T ||
+        value == io_U || value == io_V || value == io_W || value == io_X ||
+        value == io_Y || value == io_Z;
+}
+
 void io_flush(struct Context *context, struct Colour colour) {
     SDL_SetRenderDrawColor(
         context->renderer,
@@ -279,6 +294,8 @@ int io_blitString(
     struct Rect bounds,
     struct Colour colour
 ) {
+    // TODO: there is bug where if the string only has one character it does
+    //       not render.
     if (bounds.size.x < 1 || bounds.size.y < 1) {
         log_warn("trying to blit string '%s' with empty bounds", string);
         return - 1;

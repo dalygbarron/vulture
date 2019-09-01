@@ -11,14 +11,13 @@ void modes_initMainMenu(struct State *state) {
 
 void modes_updateMainMenu(struct State *state, struct Event event) {
     if (event.value == io_ENTER) {
-        if (state->a == 0) engine_transition(state, Mode_QUIT);
+        if (state->a == 3) engine_transition(state, Mode_QUIT);
         else if (state->a == 1) engine_transition(state, Mode_START);
         else if (state->a == 2) engine_transition(state, Mode_START);
-        else if (state->a == 3) {
-            state->ca = "Mr Bongos";
-            state->cb = "tes test test est etstes ttez ts test es ttesz teh";
-            state->a = Mode_MAIN_MENU;
-            engine_transition(state, Mode_NOTICE);
+        else if (state->a == 0) {
+            state->a = Mode_NEW_MENU;
+            state->ca = "New File Name: ";
+            engine_transition(state, Mode_READ_STRING);
         }
     } else {
         state->a++;

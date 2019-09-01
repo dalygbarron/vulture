@@ -78,3 +78,14 @@ main:
     When user presses text keys add their input to the S register and increment
     B. If user presses enter key set S[B] to 0 and transition to state stored
     in A.
+
+STATUS_AIMING
+=============
+
+This is a status that will occur in the game in which you aim a crosshair type
+thing onto an enemy so that you can shoot them. It will also have to take in
+some configuration values since aiming is used for a couple of different
+actions. Lets say A will store the type of action that you are aiming, and
+B will store the index of the spell/item/weapon that you are aiming.
+
+There is also a looking mode, but I think that will be a seperate thing.

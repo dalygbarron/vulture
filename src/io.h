@@ -20,6 +20,8 @@ extern int const io_LEFT;
 extern int const io_RIGHT;
 extern int const io_ESC;
 extern int const io_ENTER;
+extern int const io_SPACE;
+extern int const io_BACKSPACE;
 extern int const io_0;
 extern int const io_1;
 extern int const io_2;
@@ -72,6 +74,13 @@ int io_execute(int (*body)(struct Context *));
  * @return an event object describing the next event in the queue.
  */
 struct Event io_handleInput();
+
+/**
+ * Tells you if the given key code is alphanumeric.
+ * @param value is the key code to check.
+ * @return 1 if it is and 0 if not.
+ */
+int io_keyAlphanumeric(int value);
 
 /**
  * Fills the screen with a nice colour.
