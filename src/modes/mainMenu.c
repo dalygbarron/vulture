@@ -11,7 +11,7 @@ void modes_initMainMenu(struct State *state) {
 
 void modes_updateMainMenu(struct State *state, struct Event event) {
     if (event.value == io_ENTER) {
-        if (state->a == 0) engine_transition(state, Mode_START);
+        if (state->a == 0) engine_transition(state, Mode_QUIT);
         else if (state->a == 1) engine_transition(state, Mode_START);
         else if (state->a == 2) engine_transition(state, Mode_START);
         else if (state->a == 3) {

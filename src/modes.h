@@ -185,4 +185,11 @@ void modes_renderDead(struct Context *context, struct State *state);
  */
 void modes_renderShowFile(struct Context *context, struct State *state);
 
+/**
+ * Renders the quit mode.
+ * @param context is the rendering context.
+ * @param state   is the state of the program.
+ */
+void modes_renderQuit(struct Context *context, struct State *state);
+
 #endif

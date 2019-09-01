@@ -60,12 +60,14 @@ void engine_transition(struct State *state, enum Mode mode) {
         case Mode_DEAD:
             modes_initDead(state);
             break;
+        case Mode_QUIT:
+            break;
         default:
             log_error("No such mode as %d", mode);
     }
 }
 
-void engine_update(struct State *state, struct Event event) {
+int engine_update(struct State *state, struct Event event) {
     switch (state->mode) {
         case Mode_START:
             modes_updateStart(state, event);
@@ -91,7 +93,10 @@ void engine_update(struct State *state, struct Event event) {
         case Mode_DEAD:
             modes_updateDead(state, event);
             break;
+        case Mode_QUIT:
+            return 0;
     }
+    return -1;
 }
 
 void engine_render(struct Context *context, struct State *state) {
@@ -119,6 +124,9 @@ void engine_render(struct Context *context, struct State *state) {
         break;
     case Mode_DEAD:
         modes_renderDead(context, state);
+        break;
+    case Mode_QUIT:
+        modes_renderQuit(context, state);
         break;
     }
     io_frame(context);

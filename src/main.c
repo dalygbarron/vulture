@@ -12,13 +12,13 @@ int body(struct Context *context) {
     while (1) {
         struct Event event = io_handleInput();
         if (event.type == Event_QUIT) {
-            break;
+            return 0;
         } else if (event.type != Event_NOTHING) {
-            engine_update(state, event);
+            int response = engine_update(state, event);
+            if (response >= 0) return response;
             engine_render(context, state);
         }
     }
-    return 69;
 }
 
 int main(int argc, char const **argv) {

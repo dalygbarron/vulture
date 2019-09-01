@@ -13,7 +13,9 @@ enum Mode {
     Mode_OPTIONS_MENU,
     Mode_READ_STRING,
     Mode_DEAD,
-    Mode_SHOW_FILE
+    Mode_SHOW_FILE,
+    Mode_QUIT
 };
+
 
 #endif

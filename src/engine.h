@@ -22,8 +22,9 @@ void engine_transition(struct State *state, enum Mode mode);
  * Updates the engine state based on an input event.
  * @param state is the program state.
  * @param event is the input event to update it with.
+ * @return -1 normally, but something >= 0 if it wants to quit.
  */
-void engine_update(struct State *state, struct Event event);
+int engine_update(struct State *state, struct Event event);
 
 /**
  * Displays the current state of the program on the screen.
