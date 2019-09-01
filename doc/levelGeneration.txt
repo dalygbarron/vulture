@@ -1,0 +1,32 @@
+LEVEL GENERATION
+================
+
+The difficult thing about level generation is not so much thinking up
+algorithms for making the shape of the dungeons, as for this simpleish game it
+should not be too hard; the difficult thing is figuring out how to link enemies
+into it.
+
+I think that we must have generalised algorithms that are written into the
+code, and then we should have configured "areas" which make use of an
+algorithm but also change the kinds of materials the area is built with and
+that kind of thing.
+
+I think that for each spot on the floor that it creates, it should have to call
+a function that tells it what enemy if any to place on that spot in on the
+floor. It can then use a bunch of logic such as proximity to certain
+substances like water or fire, and proximity to previously added enemies in
+order to decide what kind of enemy. Social enemies will more likely to be closer
+together and such.
+
+There could also be special flags added to a certain floor or dungeon like "is
+inhabited by humans" which might make it that no wild creatures spawn, or "is
+infected by disease" which would make diseased creatures spawn.
+
+Oh yeah, it will obviously have to do this enemy adding as a final pass over
+the generated level. This is somewhat problematic as it will be slow as piss.
+
+Also, occasionally you are just going to want to add the enemies earlier for
+example when you have a nice little thing like an enemy camp in a desert or
+a king on his throne. You cannot leave that stuff to chance.
+
+

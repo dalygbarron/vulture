@@ -55,6 +55,12 @@ void modes_initReadString(struct State *state);
 void modes_initDead(struct State *state);
 
 /**
+ * Initialises the show file mode.
+ * @param state is the state of the program.
+ */
+void modes_initShowFile(struct State *state);
+
+/**
  * Updates the start mode.
  * @param state is the state of the program.
  * @param event is the event that is updating the program.
@@ -108,6 +114,13 @@ void modes_updateReadString(struct State *state, struct Event event);
  * @param event is the event that has caused an updatre.
  */
 void modes_updateDead(struct State *state, struct Event event);
+
+/**
+ * Updates the show file mode.
+ * @param state is the state of the program.
+ * @param event is the event that has caused an updatre.
+ */
+void modes_updateShowFile(struct State *state, struct Event event);
 
 /**
  * Renders the start mode.
@@ -164,5 +177,12 @@ void modes_renderReadString(struct Context *context, struct State *state);
  * @param state   is the state of the program.
  */
 void modes_renderDead(struct Context *context, struct State *state);
+
+/**
+ * Renders the show file mode.
+ * @param context is the rendering context.
+ * @param state   is the state of the program.
+ */
+void modes_renderShowFile(struct Context *context, struct State *state);
 
 #endif

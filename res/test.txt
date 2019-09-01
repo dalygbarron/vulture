@@ -1,0 +1,21 @@
+TEST TEXT
+===============================================================================
+This is just a bunch of test text so that I can show that the text file reading
+mode works.
+
+I guess it would be nice if you could jump to different parts of the file or
+something along those lines. Maybe if there was some kind of way that it could
+identify headings then the help command would be able to let you choose
+a heading to go to somehow. On the other hand you could just configure there to
+be multiple help files with each having a fairly specific topic and then you
+could choose which one of those files you would want to have a nice read of.
+
+Bongo
+
+bongo 
+
+bingogog
+
+I am going to wear a smallish hat. Just big enough that the hat looks very
+powerful and very beautiful you know exactly what kind of hat I am talking
+about I think.
