@@ -294,13 +294,13 @@ int io_blitString(
     struct Rect bounds,
     struct Colour colour
 ) {
-    // TODO: there is bug where if the string only has one character it does
     //       not render.
     if (bounds.size.x < 1 || bounds.size.y < 1) {
         log_warn("trying to blit string '%s' with empty bounds", string);
         return - 1;
     }
     int length = strlen(string);
+    if (length == 1) io_blitCharacter(context, string[0], bounds.pos, colour);
     int writer = 0;
     int bottom = bounds.pos.y + bounds.size.y;
     while (writer < length - 1 && bounds.pos.y < bottom) {

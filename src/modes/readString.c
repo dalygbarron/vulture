@@ -28,5 +28,5 @@ void modes_renderReadString(struct Context *con, struct State *state) {
     io_blitString(con, state->ca, util_inner(bounds), io_RED);
     bounds.pos.y += 1;
     bounds.size.y -= 1;
-    io_blitCharacters(con, state->sa, state->b, util_inner(bounds).pos, io_WHITE);
+    io_blitString(con, state->sa, util_inner(bounds), io_WHITE);
 }
