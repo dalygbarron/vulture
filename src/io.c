@@ -278,6 +278,26 @@ void io_blitCharacters(
     }
 }
 
+int io_blitCharacterLines(
+    struct Context *context,
+    char const *c,
+    int length,
+    struct Vector pos,
+    struct Colour colour
+) {
+    struct Vector origin = pos;
+    for (int i = 0; i < length; i++) {
+        if (c[0] == '\n') {
+            pos.x = origin.x;
+            pos.y++;
+        } else {
+            io_blitCharacter(context, c[i], pos, colour);
+            pos.x++;
+        }
+    }
+    return pos.y - origin.y + 1;
+}
+
 void io_blitIcon(
     struct Context *context,
     unsigned char icon,
@@ -314,7 +334,7 @@ int io_blitString(
             checker = util_min(writer + bounds.size.x, length);
             whiteoffset = 0;
         }
-        io_blitCharacters(
+        bounds.pos.y += io_blitCharacterLines(
             context,
             string + writer,
             checker - writer,
@@ -322,7 +342,6 @@ int io_blitString(
             colour
         );
         writer = checker + whiteoffset;
-        bounds.pos.y++;
     }
     return bounds.pos.y - (bottom - bounds.size.y);
 }

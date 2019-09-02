@@ -145,6 +145,25 @@ void io_blitCharacters(
 );
 
 /**
+ * Draws a sequence of characters on the screen in lines from the given spot,
+ * with no fitting, but it can include new lines, and it will tell you if there
+ * were new lines.
+ * @param context is the rendering context.
+ * @param c       is an array containing the sequence of characters.
+ * @param length  is the number of characters to read from the array.
+ * @param pos     is the position of the first character.
+ * @param colour  is the colour to draw the characters in.
+ * @return the number of lines the output was formed into.
+ */
+int io_blitCharacterLines(
+    struct Context *context,
+    char const *c,
+    int length,
+    struct Vector pos,
+    struct Colour colour
+);
+
+/**
  * Draws one icon on the screen at the given spot.
  * @param context is the rendering context.
  * @param icon    is the icon to draw.

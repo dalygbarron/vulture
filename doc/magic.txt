@@ -1,0 +1,32 @@
+MAGIC
+===============================================================================
+
+I have heard about magic systems in which there is no mana, you just have to
+"prepare" spells, and they are then stored in slots, and then you fire them
+from their slot. (Though presumably for convenience this could be streamlined
+to a single step for situations where that would be useful).
+
+The preparation step will take a great amount of time which means that the user
+will be trading resources like food, and their own safety in order to prepare
+the spells. You will not be able to be interrupted while preparing a spell
+either since it would be hard to accomodate for in the game loop and also
+because I figure you are probably in a trance or something, so if something
+gets into the room where you are preparing spells you could easily die.
+
+Yeah I am quite psyched about this, I think it would be rather fascinating to
+try and build a character who is fairly low health and physical strength, but
+try to manage their prepared spells and scrolls and shit in order to be able to
+get in and kill the cunts and get out.
+
+So you will have some fixed number of spell slots as well which will be
+increased by increasing your knowledge level, and maybe also by equipping some
+special items that increase your number of slots.
+
+There could also be items that automatically prepare a skill and store it in
+themselves like a magic sword that occasionally lets you cast a fireball or
+whatever. That would be pretty cool.
+
+In order to be able to prepare a spell, you would need to have a book of that
+spell. You can also get a scroll of that spell which lets you cast it
+instantaneously, but I will just have to balance it so that they are not common
+enough that you can rely on them for anything.

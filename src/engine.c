@@ -21,18 +21,24 @@ struct State *engine_createState() {
 
 void engine_transition(struct State *state, enum Mode mode) {
     log_info(
-        "Entering mode %d. A: %d, B: %d, C: %d, VA: (%d, %d)"
-        ", VB: (%d, %d), SA: '%s', SB: '%s'",
+        "Entering mode %d. A: %d, B: %d, C: %d, D: %d, E: %d, VA: (%d, %d)"
+        ", VB: (%d, %d), SA: '%s', SB: '%s', CA: %d, CB: %d, CC: %d, CD: %d",
         mode,
         state->a,
         state->b,
         state->c,
+        state->d,
+        state->e,
         state->va.x,
         state->va.y,
         state->vb.x,
         state->vb.y,
         state->sa,
-        state->sb
+        state->sb,
+        state->ca,
+        state->cb,
+        state->cc,
+        state->cd
     );
     state->mode = mode;
     switch(mode) {

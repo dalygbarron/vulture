@@ -79,6 +79,20 @@ main:
     B. If user presses enter key set S[B] to 0 and transition to state stored
     in A.
 
+Mode_NEW_MENU
+==============
+
+Basically it needs to take a string in SA which will be the name of the file in
+which it will save the newly created player world thingo. If there is no string
+in SA or the string is already used in a file name, then it goes back to the
+read string mode to read in the string. The advantage of this approach is that
+all of the dialogue used on the read string mode relating to this will be
+stored within this mode's code, rather than storing it in the mode that
+transitions into this mode via the read string mode.
+
+Once the file is decided upon, 
+
+
 STATUS_AIMING
 =============
 
