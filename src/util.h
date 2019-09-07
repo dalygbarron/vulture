@@ -61,6 +61,13 @@ void util_initDict(struct Dict *dict, int size);
 void util_freeDict(struct Dict *dict, void (*deletor)(void *));
 
 /**
+ * Makes a copy of a struct that is the same with freshly copies keys, but
+ * links to the original value objects.
+ * @param dict is the dictionary to copy.
+ */
+struct Dict *util_copyDict(struct Dict *dict);
+
+/**
  * Adds an item to the dictionary.
  * @param dict  is the dictionary to add to.
  * @param key   is the key to add it under. this value is copied so you don't
