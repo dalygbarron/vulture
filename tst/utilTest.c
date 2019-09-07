@@ -23,41 +23,84 @@ static char const *testHash() {
 }
 
 static char const *testDict() {
+    int a = 1;
+    int b = 2;
+    int c = 3;
+    int d = 4;
+    int e = 5;
+    int f = 6;
+    int g = 7;
+    int h = 8;
+    int i = 9;
+    int j = 10;
     struct Dict dict;
-    util_initDict(&dict, 40);
-    util_addDict(&dict, "key A", 1);
-    util_addDict(&dict, "BBB", 2);
-    util_addDict(&dict, "THIRD key", 3);
-    util_addDict(&dict, "4", 4);
-    util_addDict(&dict, "Fifthe keyu", 5);
-    util_addDict(&dict, "6 KEY", 6);
-    util_addDict(&dict, "77777", 7);
-    util_addDict(&dict, "eighth key", 8);
-    util_addDict(&dict, "Key I", 9);
-    util_addDict(&dict, "key J", 10);
-    unit_ASSERT("key is found", util_findDict(&dict, "key A") == (size_t)1);
-    unit_ASSERT("key is found", util_findDict(&dict, "BBB") == (size_t)2);
-    unit_ASSERT("key is found", util_findDict(&dict, "THIRD key") == (size_t)3);
-    unit_ASSERT("key is found", util_findDict(&dict, "4") == (size_t)4);
-    unit_ASSERT("key is found", util_findDict(&dict, "Fifthe keyu") == (size_t)5);
-    unit_ASSERT("key is found", util_findDict(&dict, "6 KEY") == (size_t)6);
-    unit_ASSERT("key is found", util_findDict(&dict, "77777") == (size_t)7);
-    unit_ASSERT("key is found", util_findDict(&dict, "eighth key") == (size_t)8);
-    unit_ASSERT("key is found", util_findDict(&dict, "Key I") == (size_t)9);
-    unit_ASSERT("key is found", util_findDict(&dict, "key J") == (size_t)10);
-    unit_ASSERT("nonexistent key is not found", util_findDict(&dict, "junk") == (size_t)0);
+    util_initDict(&dict, 20);
+    util_addDict(&dict, "key A", &a);
+    util_addDict(&dict, "BBB", &b);
+    util_addDict(&dict, "THIRD key", &c);
+    util_addDict(&dict, "4", &d);
+    util_addDict(&dict, "Fifthe keyu", &e);
+    util_addDict(&dict, "6 KEY", &f);
+    util_addDict(&dict, "77777", &g);
+    util_addDict(&dict, "eighth key", &h);
+    util_addDict(&dict, "Key I", &i);
+    util_addDict(&dict, "key J", &j);
+    unit_ASSERT("key is found", util_findDict(&dict, "BBB") == &b);
+    unit_ASSERT("key is found", util_findDict(&dict, "eighth key") == &h);
+    unit_ASSERT("key is found", util_findDict(&dict, "Fifthe keyu") == &e);
+    unit_ASSERT("key is found", util_findDict(&dict, "key J") == &j);
+    unit_ASSERT("key is found", util_findDict(&dict, "key A") == &a);
+    unit_ASSERT("key is found", util_findDict(&dict, "THIRD key") == &c);
+    unit_ASSERT("key is found", util_findDict(&dict, "77777") == &g);
+    unit_ASSERT("key is found", util_findDict(&dict, "6 KEY") == &f);
+    unit_ASSERT("key is found", util_findDict(&dict, "Key I") == &i);
+    unit_ASSERT("key is found", util_findDict(&dict, "4") == &d);
+    unit_ASSERT("fake key is not found", util_findDict(&dict, "junk") == 0);
     util_freeDict(&dict, 0);
 }
 
 static char const *testTinyDict() {
+    int a = 1;
+    int b = 2;
+    int c = 3;
+    int d = 4;
+    int e = 5;
+    int f = 6;
+    int g = 7;
+    int h = 8;
+    int i = 9;
+    int j = 10;
     struct Dict dict;
     util_initDict(&dict, 1);
+    util_addDict(&dict, "key A", &a);
+    util_addDict(&dict, "BBB", &b);
+    util_addDict(&dict, "THIRD key", &c);
+    util_addDict(&dict, "4", &d);
+    util_addDict(&dict, "Fifthe keyu", &e);
+    util_addDict(&dict, "6 KEY", &f);
+    util_addDict(&dict, "77777", &g);
+    util_addDict(&dict, "eighth key", &h);
+    util_addDict(&dict, "Key I", &i);
+    util_addDict(&dict, "key J", &j);
+    unit_ASSERT("key is found", util_findDict(&dict, "BBB") == &b);
+    unit_ASSERT("key is found", util_findDict(&dict, "eighth key") == &h);
+    unit_ASSERT("key is found", util_findDict(&dict, "Fifthe keyu") == &e);
+    unit_ASSERT("key is found", util_findDict(&dict, "key J") == &j);
+    unit_ASSERT("key is found", util_findDict(&dict, "key A") == &a);
+    unit_ASSERT("key is found", util_findDict(&dict, "THIRD key") == &c);
+    unit_ASSERT("key is found", util_findDict(&dict, "77777") == &g);
+    unit_ASSERT("key is found", util_findDict(&dict, "6 KEY") == &f);
+    unit_ASSERT("key is found", util_findDict(&dict, "Key I") == &i);
+    unit_ASSERT("key is found", util_findDict(&dict, "4") == &d);
+    unit_ASSERT("fake key is not found", util_findDict(&dict, "junk") == 0);
+    util_freeDict(&dict, 0);
 }
 
 static char const *runTests() {
     unit_RUN(testWhitespace);
     unit_RUN(testHash);
     unit_RUN(testDict);
+    unit_RUN(testTinyDict);
     return 0;
 }
 

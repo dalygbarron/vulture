@@ -78,6 +78,17 @@ void util_addDict(struct Dict *dict, char const *key, void *value);
 void *util_findDict(struct Dict *dict, char const *key);
 
 /**
+ * Tells you if the given dictionary has the given key. Kind of important since
+ * it does not handle duplicate keys, so if you added two of the same key it
+ * would do a bit of weird stuff, though on the other hand it also would not be
+ * the end of the world and it would not cause memory leaks or anything bad
+ * like that. Would sort suck though.
+ * @param dict is the dictionary to look in.
+ * @param key  is the key to look for.
+ */
+int util_hasDict(struct Dict *dict, char const *key);
+
+/**
  * Removes a key from a dictionary. Does no freeing of memory on the value, so
  * you must manage that yourself, it does free the key though.
  * @param dict is the dictionary to remove from.

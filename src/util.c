@@ -48,11 +48,14 @@ void util_initDict(struct Dict *dict, int size) {
 
 void util_freeDict(struct Dict *dict, void (*deletor)(void *)) {
     for (int i = 0; i < dict->size; i++) {
-        if (deletor) deletor(dict->buckets[i].value);
+        if (dict->buckets[i].value && deletor) deletor(dict->buckets[i].value);
+        if (dict->buckets[i].key) free(dict->buckets[i].key);
         struct Bucket *next = dict->buckets[i].next;
         while (next) {
             if (next->value && deletor) deletor(next->value);
-            if (next->key) free(next->key);
+            if (next->key) {
+                free(next->key);
+            }
             struct Bucket *old = next;
             next = next->next;
             free(old);
@@ -65,16 +68,19 @@ void util_addDict(struct Dict *dict, char const *key, void *value) {
     int keyLength = strlen(key);
     int index = util_hash(key, keyLength) % dict->size;
     struct Bucket *bucket = dict->buckets + index;
-    if (bucket->key) log_warn("collision on key '%s'", key);
-    while (bucket->key && strcmp (bucket->key, key)) {
-        bucket = bucket->next;
-    }
     if (!bucket->key) {
-        char *bucketKey = malloc(keyLength + 1);
-        strcpy(bucketKey, key);
-        bucket->key = bucketKey;
+        bucket->key = malloc(keyLength + 1);
+        strcpy(bucket->key, key);
+        bucket->value = value;
+    } else {
+        log_warn("collision on key '%s'", key);
+        while (bucket->next) bucket = bucket->next;
+        bucket->next = malloc(sizeof(struct Bucket));
+        bucket->next->key = malloc(keyLength + 1);
+        strcpy(bucket->next->key, key);
+        bucket->next->value = value;
+        bucket->next->next = 0;
     }
-    bucket->value = value;
 }
 
 void *util_findDict(struct Dict *dict, char const *key) {
@@ -84,7 +90,7 @@ void *util_findDict(struct Dict *dict, char const *key) {
         if (strcmp(bucket->key, key) == 0) return bucket->value;
         bucket = bucket->next;
     }
-    log_error("Key '%s' not found in dictionary", key);
+    log_warn("Key '%s' not found in dictionary", key);
     return 0;
 }
 
