@@ -1,7 +1,9 @@
 #include "src/util.h"
 #include "src/model/Dict.h"
 #include "src/model/Bucket.h"
+#include "src/log.h"
 #include <stdlib.h>
+#include <string.h>
 
 int util_whitespace(char c) {
     return c == ' ' || c == '\n' || c == '\t';
@@ -23,7 +25,7 @@ struct Rect util_inner(struct Rect rect) {
     return rect;
 }
 
-int util_hash(void *value, size_t size) {
+unsigned int util_hash(void const *value, size_t size) {
     int total = 0;
     unsigned char *bytes = (unsigned char *)value;
     for (int i = 0; i < size; i++) {
@@ -39,6 +41,7 @@ void util_initDict(struct Dict *dict, int size) {
     dict->buckets = malloc(sizeof(struct Bucket) * size);
     for (int i = 0; i < size; i++) {
         dict->buckets[i].next = 0;
+        dict->buckets[i].key = 0;
         dict->buckets[i].value = 0;
     }
 }
@@ -49,15 +52,43 @@ void util_freeDict(struct Dict *dict, void (*deletor)(void *)) {
         struct Bucket *next = dict->buckets[i].next;
         while (next) {
             if (next->value && deletor) deletor(next->value);
+            if (next->key) free(next->key);
             struct Bucket *old = next;
             next = next->next;
             free(old);
         }
-        free(dict->buckets);
     }
+    free(dict->buckets);
 }
 
 void util_addDict(struct Dict *dict, char const *key, void *value) {
+    int keyLength = strlen(key);
+    int index = util_hash(key, keyLength) % dict->size;
+    struct Bucket *bucket = dict->buckets + index;
+    if (bucket->key) log_warn("collision on key '%s'", key);
+    while (bucket->key && strcmp (bucket->key, key)) {
+        bucket = bucket->next;
+    }
+    if (!bucket->key) {
+        char *bucketKey = malloc(keyLength + 1);
+        strcpy(bucketKey, key);
+        bucket->key = bucketKey;
+    }
+    bucket->value = value;
+}
+
+void *util_findDict(struct Dict *dict, char const *key) {
+    int index = util_hash(key, strlen(key)) % dict->size;
+    struct Bucket *bucket = dict->buckets + index;
+    while (bucket && bucket->key) {
+        if (strcmp(bucket->key, key) == 0) return bucket->value;
+        bucket = bucket->next;
+    }
+    log_error("Key '%s' not found in dictionary", key);
+    return 0;
+}
+
+void util_removeDict(struct Dict *dict, char const *key) {
 
 }
 

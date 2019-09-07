@@ -6,7 +6,7 @@
  */
 struct Bucket {
     struct Bucket *next;
-    char const *key;
+    char *key;
     void *value;
 };
 

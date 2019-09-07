@@ -6,10 +6,10 @@ TEST_OBJS=$(addsuffix .t.o, $(TESTS))
 TEST_OUTS=$(addsuffix .test, $(TESTS))
 MODES=$(addsuffix .o, $(notdir $(wildcard src/modes/*.c)))
 OBJS=io.o log.o util.o engine.o $(MODES)
-C_FLAGS=-I . -std=c11
+C_FLAGS=-I . -std=c11 -g
 LINKER_FLAGS=-lSDL2 -lSDL2_image
 
-all: $(OUT) $(TESTS)
+all: $(OUT) tests
 
 tests: $(TEST_OUTS)
 

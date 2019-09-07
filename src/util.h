@@ -43,7 +43,7 @@ struct Rect util_inner(struct Rect rect);
  * @param size  is the number of bytes in this value.
  * @return a nice hashed int.
  */
-int util_hash(void *value, size_t size);
+unsigned int util_hash(void const *value, size_t size);
 
 /**
  * Sets up a dictionary with the needed buckets.

@@ -1,0 +1,78 @@
+SCRIPTING
+===============================================================================
+
+At some point in development I am going to want a dev console thingy where
+I can type in stuff to edit the map and add fancy shit to myself etc. Obvsiouly
+since this game is explicitly avoiding scripted content, embedding a scripting
+language solely so that I can do dev console shit is way over the top, so
+therefore, I have thought of a design for a real basic one I can implement
+quickly myself.
+
+It will be a stack language and do everything in a single pass (except when it
+executes strings, as it will pass over it once as a string, and then when you
+execute it it passes over it again as code).
+
+In order to allow logic structures without messing around with the nice simple
+one pass thing, I am going to make it that all code blocks are actually
+interpreted as strings and placed upon the stack, then after the block is
+placed on the stack you will have methods to execute it. If you want to call
+a function you will load the function text from a global variable onto the
+stack, and then execute it.
+
+In order for this to work nestedly, the { character will actually mean start
+string, and } will mean end string, and these will be parsed nestedly, so {{}}
+will return the string {} rather than { (and an error). You can also used " for
+normal strings though as it would be kinda weird otherwise and you would have
+to escape { and }.
+
+There will not be any scope for named variables, I think local variables are
+replaced by the stack. For global variables there are three prefixes; =, $, and
+!. =name means set variable name to top value on stack. $name means push value
+of variable name on top of stack. !name means push value of name on top of
+stack and then immediately execute it as code.
+
+It would be good if the game exposed some global variables for stuff like the
+pointer location if you are in look mode, and the values of the registers if
+that is actually useful. I think that it should be possible to use this
+scripting language to transition from one program mode to another and do all of
+that kind of stuff.
+
+There should also be a default set of variables to set so that I can load in
+some functions I want by default. I was thinking of having an rc file type
+thing but that would actually be kind of a pain in the ass, so instead I think
+I will create a dictionary of these variables out of an .ini file, as the
+script runner will use a dictionary as well, so it can just start with that
+dictionary and build from it.
+
+Obviously, performance is not going to be remotely impressive, but that is
+beside the point, I do not intend for it to have any use within gameplay which
+is an idea I hold very strongly. Also if by some psychotic episode I did decide
+to add scripted content into the actual game, I would just embed an actual
+scripting language. This one is to be created purely because embedding
+scripting languages is a pain in the balls and a lot of fuss and pomp so
+I would rather keep the code my own when it's only going to be used by dev
+tools for me.
+
+Here are some examples of how I imagine it.
+
+===============================================================================
+
+{"tango is a " swap concat print} =tango
+{"tool" "idiot" {swap} 0 1 randint 0 equal execif pop} =word
+
+!word !tango
+
+# This bit of code defines a function called tango and a function called word.
+# The tango function takes a string from the stack and concatenates it onto the 
+# end of a string that says "tango is a ..." and then prints it, and the word
+# selects randomly either the word tool or idiot and places it on the stack.
+# Placed together, the code will print either "tango is a tool" or "tango is
+# a idiot"
+
+===============================================================================
+
+{printnum} 0 100 range
+
+# This one should print the numbers 0 to 100.
+
+===============================================================================
