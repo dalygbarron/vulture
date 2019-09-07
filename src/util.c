@@ -1,4 +1,7 @@
 #include "src/util.h"
+#include "src/model/Dict.h"
+#include "src/model/Bucket.h"
+#include <stdlib.h>
 
 int util_whitespace(char c) {
     return c == ' ' || c == '\n' || c == '\t';
@@ -18,6 +21,44 @@ struct Rect util_inner(struct Rect rect) {
     rect.size.x -= 2;
     rect.size.y -= 2;
     return rect;
+}
+
+int util_hash(void *value, size_t size) {
+    int total = 0;
+    unsigned char *bytes = (unsigned char *)value;
+    for (int i = 0; i < size; i++) {
+        total ^= total << 5;
+        total ^= bytes[i];
+    }
+    return total;
+}
+
+void util_initDict(struct Dict *dict, int size) {
+    dict->size = size;
+    dict->n = 0;
+    dict->buckets = malloc(sizeof(struct Bucket) * size);
+    for (int i = 0; i < size; i++) {
+        dict->buckets[i].next = 0;
+        dict->buckets[i].value = 0;
+    }
+}
+
+void util_freeDict(struct Dict *dict, void (*deletor)(void *)) {
+    for (int i = 0; i < dict->size; i++) {
+        if (deletor) deletor(dict->buckets[i].value);
+        struct Bucket *next = dict->buckets[i].next;
+        while (next) {
+            if (next->value && deletor) deletor(next->value);
+            struct Bucket *old = next;
+            next = next->next;
+            free(old);
+        }
+        free(dict->buckets);
+    }
+}
+
+void util_addDict(struct Dict *dict, char const *key, void *value) {
+
 }
 
 struct Vector util_v(int x, int y) {

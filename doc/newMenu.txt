@@ -1,0 +1,9 @@
+The stages of new character generation are:
+1) select gender and description.
+2) select race appears next to gender, and press esc to go back.
+3) select build appears next to race, and press esc to go back
+4) select state getting mode appears next to all that and esc to go back.
+5) It goes to a different screen with an overview and also lets you tweak the
+   stats. you can still go back with esc.
+6) then on the stats screen it lets you choose a name.
+7) then there is a final overview with the name there on the stats screen.

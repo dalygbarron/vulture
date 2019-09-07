@@ -4,6 +4,8 @@
 #include "model/Vector.h"
 #include "model/Colour.h"
 #include "model/Rect.h"
+#include "model/Dict.h"
+#include <stddef.h>
 
 /**
  * Tells you if the given character is whitespace or not.
@@ -34,6 +36,54 @@ int util_max(int a, int b);
  * @return the smaller rect.
  */
 struct Rect util_inner(struct Rect rect);
+
+/**
+ * hashes some arbitrary value into a nice int.
+ * @param value is a pointer to the value to hash.
+ * @param size  is the number of bytes in this value.
+ * @return a nice hashed int.
+ */
+int util_hash(void *value, size_t size);
+
+/**
+ * Sets up a dictionary with the needed buckets.
+ * @param dict is the dictionary.
+ * @param size is the number of buckets to give it.
+ */
+void util_initDict(struct Dict *dict, int size);
+
+/**
+ * Deletes all the stuff in the dictionary, but first calls a special deletion
+ * function on each element.
+ * @param dict    is the dictionary.
+ * @param deletor is the function to call on each value before deletion.
+ */
+void util_freeDict(struct Dict *dict, void (*deletor)(void *));
+
+/**
+ * Adds an item to the dictionary.
+ * @param dict  is the dictionary to add to.
+ * @param key   is the key to add it under. this value is copied so you don't
+ *              need to worry about freeDict deleting it from elsewhere.
+ * @param value is the value to add to the dictionary.
+ */ 
+void util_addDict(struct Dict *dict, char const *key, void *value);
+
+/**
+ * Finds a value in a dictionary and gives it to you.
+ * @param dict is the dictionary to look in.
+ * @param key  is the key to look for.
+ * @return the found value or a null pointer.
+ */
+void *util_findDict(struct Dict *dict, char const *key);
+
+/**
+ * Removes a key from a dictionary. Does no freeing of memory on the value, so
+ * you must manage that yourself, it does free the key though.
+ * @param dict is the dictionary to remove from.
+ * @param key  is the key to remove.
+ */
+void util_removeDict(struct Dict *dict, char const *key);
 
 /**
  * Creates a vector.
