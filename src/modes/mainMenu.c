@@ -15,9 +15,8 @@ void modes_updateMainMenu(struct State *state, struct Event event) {
         else if (state->a == 1) engine_transition(state, Mode_START);
         else if (state->a == 2) engine_transition(state, Mode_START);
         else if (state->a == 0) {
-            state->a = Mode_NEW_MENU;
-            state->ca = "New File Name: ";
-            engine_transition(state, Mode_READ_STRING);
+            state->ca = 0;
+            engine_transition(state, Mode_NEW_MENU);
         }
     } else {
         state->a++;

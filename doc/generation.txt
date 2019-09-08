@@ -1,0 +1,54 @@
+GENERATION
+===============================================================================
+
+Obviously I do not want to generate every single map in the game at the same
+time because that would take a long time, and also certain maps might not even
+exist until they are created by digging or whatever.
+
+Every map will have a location in 3D space, and when a new map is created it
+will look at it's location in relation to other maps and the things that those
+other maps have that are inter map related (for example up and down staircases,
+waterfalls and sinkholes and stuff), and it can make a decision as to whether
+it wants to include them in the map, and if it does then it will then be
+a requirement that those locations are covered by this map and they have the
+right stuff like stairs if needed.
+
+Actually, rather than being an initial decision, I think I should just make it
+that if the map happens to pass over an unclaimed staircase then it can choose
+to claim it and put a staircase there.
+
+I feel a little worried about things overwriting staircases and stuff like
+that, but I can just code a logging error right into the tile setting function
+when you overwrite a claimed staircase. If the staircase is nto claimed it does
+not really matter.
+
+There should also be cases where a staircase reserves itself for a specific
+type of thing, for example if there is a level with three staircases, but one
+of them is a special staircase to a treasure room or something, and the other
+two are just normal staircases. In this case, the special staircase should not
+be able to be claimed by anything. I will come back to this idea.
+
+Also, levels should be generated in advance, meaning that when you enter the
+first level of the game it should generate all of the levels that connect to
+the first level, and when you enter those levels it generates the levels
+connected to them, and it should store a flag as to whether a level has been
+entered by the player yet or not. The advantage of doing this is that until
+a level has been entered by the player, it can still be edited, so if two maps
+are on the same height and position, we can add a staircase between them
+somewhere if we want. I think we should do so with %50 likelihood on average,
+but other things might change that likelihood considerably.
+
+EXAMPLE
+===============================================================================
+
+First level is a big courtyard with four stairways up, one stairway down to
+the dungeons, one stairway down to the kitchen, and one stairway down to the
+vault. All of the connecting levels are then generated, so for the up
+staircases, it will generate a level above which may also cover some of the
+other up staircases in which case it may claim them. If two of the up floors
+overlap then it may also create a passageway between them. It will choose the
+style of these up levels simply based on height number and the current "biome"
+type thing we are in which is castle.
+
+For the down to gold it will know that this staircase is meant to lead to gold
+so it will create a gold room.

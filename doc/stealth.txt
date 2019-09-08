@@ -1,0 +1,23 @@
+STEALTH
+===============================================================================
+
+Not really sure how this is going to work yet, just going to write down the
+sort of things that I want to happen.
+
+If enemies have not seen you then they will just be in looking around mode, not
+going straight for you. Once they see you they will go for you and will alert
+all other enemies that are within seeing distance of them.
+
+If you are dressed like a member of their faction you can probably get away
+with pretending to be one of them most of the time, though maybe there will be
+cases where that will not work, like if you get too close so that they can
+recognise you, or if they are already in angry mode.
+
+Also, if you are dressed like a servant but are carrying a bunch of weapons and
+shit they will also attack you, so you will have to stash that kind of stuff
+when you are trying to be sneaky.
+
+Also it would be nice if you could bribe guards, but if you can't talk to them
+without them attacking you I don't know how that would work. In a game like
+this I am not sure what other use money is going to have. Maybe it won't have
+any use.
