@@ -53,16 +53,49 @@ type thing we are in which is castle.
 For the down to gold it will know that this staircase is meant to lead to gold
 so it will create a gold room.
 
-STORING MAPS DURING GENERATION TIME
+STORAGE OF MAPS
 ===============================================================================
 
-During generation time in this game we do not know in what directions the map
-will stretch. In fact, that may also be true of in game, if we want a super
-large overworld, obviously we will have to load it in portions.
+Our requirements are that we can have an overworld made of smaller maps all
+fitted together, and that we can have maps that are "linked" or "nested" by
+stairs a whateevr else, also two maps can occupy the same space. We also
+require that when the map is being generated it has space to freely grow in
+different directions.
 
-Therefore, we will need to have a nice quadtree that stores the maps. Hmmm that
-kind of sucks because it will make lookup somewhat slower, especially since
-I will need to do it for each bloody thing. yeah fuck that, I will just add
-horizontal doors between areas that are at the same elevation.
+generating a map that is at height 0 and a map that is at a greater height have
+a reasonable difference in that the maps at height 0 fill a fixed size square
+area which can be walked across into the next area. maps on other height levels
+have arbitrary size and are completely boxed in other than with stairs and
+shit.
 
-Horizontal doors everywhere is awful. I will not do that.
+Ok I think that what we can do is when a map is created, any walkable edges are
+considered passages into a next level in that direction so when that level is
+entered, the level across that edge is then generated as well.
+
+OK so lets say we are generating the first level of the map at position
+(0, 0, 0). It will use the game's default algorithm, and that algorithm will
+decide that because it is at height 0, it will make itself into a fixed size
+box and have floor all the way to edges all around. When other levels are
+generated they will not be on height 0 so this will not occur.
+
+Also, since levels are linked by links, levels that border one another will
+have to store references to one another. This is slightly annoying, but that is
+just how it is on this bitch of an earth. All levels that are connected to the
+level that the player is currently in will be loaded up as well and will be
+updated so that their enemies can do stuff, enemies will also be able to move
+to a different level just like the player can. I am not sure whether I am going
+to allow path finding to span multiple levels though as that seems rather
+complicated. Ahhh fuck it, lets do it, all we need to do is everytime we hit
+a doorway we jump to the exit point of the doorway and add 1 to the pathfinding
+and continue as normal. We will need to be able to represent a point on a map
+which is not necessarily the current map though, maybe we can have all maps
+loaded into memory at the same time, but only have the actual tile data
+instantiated for the current and surrounding maps, that way, we can use the
+map's definitive id plus the tile coordinates to say what tile on what map
+a given staircase corresponds to.
+
+yeah so if we have all maps in a big array (but tile data not loaded for all of
+them), then accessing tiles in a different map will be very fast and very easy.
+
+
+

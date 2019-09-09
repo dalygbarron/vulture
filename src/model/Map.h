@@ -10,8 +10,8 @@ struct Map {
     int active;
     int accessed;
     int saved;
-    struct Vector position;
-    int height;
+    struct Vector dimensions;
+    struct Vector3 position;
     unsigned char *tiles;
 };
 

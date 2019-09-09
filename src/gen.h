@@ -18,4 +18,11 @@ struct Map *gen_map(
     char const *type
 );
 
+/**
+ * Reallocates the map's tile data so that it is just big enough to fit all of
+ * the used tile data in the map.
+ * @param map is a pointer to the map to do this to.
+ */
+void gen_fitMap(struct Map *map);
+
 #endif
