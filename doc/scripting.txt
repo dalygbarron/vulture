@@ -76,3 +76,31 @@ Here are some examples of how I imagine it.
 # This one should print the numbers 0 to 100.
 
 ===============================================================================
+
+BUILT IN COMMANDS
+===============================================================================
+
+swap: switch the top item on the stack with the second from top item.
+dredge: takes a number off the top of the stack, then takes the item that
+        deep within the stack and puts it on top of the stack.
+print: outputs the string on top of the stack.
+exec: executes the string on top of the stack as a block of code.
+execif: takes a boolean off the top of the stack and then executes the string
+        under it if the boolean was true. removes both from stack either way.
+dup: takes the top item off the stack and makes there be two of it on top of
+     the stack.
+=XXX: sets the value of global variable XXX to whatever is on top of the stack.
+@XXX: puts the value of global variable XXX on top of the stack.
+!XXX: executes the code block in global variable XXX.
+concat: takes a string from the top of the stack and combines it with the next
+        string on the stack and then puts the result on the stack.
+add: adds the two numbers on top of the stack.
+sub: subtracts the two numbers on top of the stack.
+mult: multiplies the two numbers on top of the stack.
+div: divides the two numbers on top of the stack.
+type: takes top item from stack and replaces it with it's type number.
+eq: takes two values from the stack and adds a boolean for whether or not they
+    are equal.
+ne: takes two values from the stack and adds a boolean for inequality.
+gt: takes two values from the stack and adds a boolean for if the first is
+    greater than the second.

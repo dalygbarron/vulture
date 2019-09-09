@@ -1,21 +1,18 @@
 #ifndef MAP_H
 #define MAP_H
 
-#define Map_WIDTH 64
-#define Map_HEIGHT 64
+#include "src/model/Vector.h"
 
 /**
- * Represents a single area of play for the game. Can either be in active mode
- * in which all of it's data is in the tiles array, or it can be in dormant
- * mode in which it's data is saved to a file.
+ * Represents a single area of play for the game. 
  */
 struct Map {
-    enum {
-        Map_DORMANT,
-        Map_ACTIVE
-    } status;
-    char const *filename;
-    struct Tile *tiles;
+    int active;
+    int accessed;
+    int saved;
+    struct Vector position;
+    int height;
+    unsigned char *tiles;
 };
 
 #endif

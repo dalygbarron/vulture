@@ -52,3 +52,17 @@ type thing we are in which is castle.
 
 For the down to gold it will know that this staircase is meant to lead to gold
 so it will create a gold room.
+
+STORING MAPS DURING GENERATION TIME
+===============================================================================
+
+During generation time in this game we do not know in what directions the map
+will stretch. In fact, that may also be true of in game, if we want a super
+large overworld, obviously we will have to load it in portions.
+
+Therefore, we will need to have a nice quadtree that stores the maps. Hmmm that
+kind of sucks because it will make lookup somewhat slower, especially since
+I will need to do it for each bloody thing. yeah fuck that, I will just add
+horizontal doors between areas that are at the same elevation.
+
+Horizontal doors everywhere is awful. I will not do that.
