@@ -3,18 +3,18 @@
 
 /**
  * Generates a new map and returns it.
- * @param origin is the point where the originating passageway is.
- * @param height is the height of the new map.
- * @param previous is the map this map is branching off from.
- * @param type     is a string for the type of map to create and should
- *                 generally be inherited from the previous map unless you are
- *                 creating a special map.
+ * @param conf   is the configuration data used to know what algorithms to use
+ *               and stuff.
+ * @param origin is the point where the new map starts from.
+ * @param source is the point where the originating passageway is.
+ * @param type   is a string for the type of map to create. if it is null then
+ *               it is inferred from the previous map.
  * @return the newly created and allocated map.
  */
 struct Map *gen_map(
-    struct Vector origin,
-    int height,
-    struct Map *previous,
+    struct Config const *conf,
+    struct Vector3 origin,
+    struct Vector3 source,
     char const *type
 );
 

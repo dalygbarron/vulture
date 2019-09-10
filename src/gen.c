@@ -1,15 +1,15 @@
 #include "src/gen.h"
 
-struct Map *allocateMap(int width, int height) {
-    struct Map *map = malloc(sizeof(struct Map));
-    map->tiles = malloc(sizeof(unsigned char) * width * height * Layer_N);
-}
+#define PROTO_MAP_WIDTH 200
+#define PROTO_MAP_HEIGHT 200
 
 struct Map *gen_map(
-    struct Vector origin,
+    struct Vector3 origin,
     int height,
     struct Map *previous,
     char const *type
 ) {
-    struct Map *map = allocateMap();
+    char tiles[PROTO_MAP_WIDTH * PROTO_MAP_HEIGHT * Layer_N];
+    struct Map map;
+    map->tiles = tiles;
 }

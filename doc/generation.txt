@@ -97,5 +97,18 @@ a given staircase corresponds to.
 yeah so if we have all maps in a big array (but tile data not loaded for all of
 them), then accessing tiles in a different map will be very fast and very easy.
 
+Actually for this game the flush ones are not needed, I will code it enough
+that they work with ten second procgen algorithm and then leave them for
+another time.
+Maps that are stored within houses are fine, they may do freaky shit with
+stairs but it will probably not be annoying and will seem cool as long as they
+don't add down staircases back into the overworld. If we have a map that is
+stored within a moving character like a vehicle or something, this map
+obviously cannot be connected with anything out in the overworld. It can still
+have a staircase to it's own other map, but they must be a completely
+independent graph of maps. in order to define that a set of maps is in it's own
+space of three dimensional space, we may need to use a 4 dimensions position
+instead of a three dimensional one, but then what would the fourth dimension be
+set to?
 
 
