@@ -2,6 +2,22 @@
 #define GEN_H
 
 /**
+ * Makes a nice wall cirlce for your enjoyment.
+ * @param map is the map to add it to.
+ * @param origin the location of the middle of the circle.
+ * @param radius is the radius of the circle.
+ * @param floor  is the floor tile to put inside the circle.
+ *
+ */
+void gen_circleWall(
+    struct Map *map,
+    struct Vector origin,
+    float radius,
+    unsigned char floor,
+    unsigned char wall
+);
+
+/**
  * Generates a new map and returns it.
  * @param conf   is the configuration data used to know what algorithms to use
  *               and stuff.
