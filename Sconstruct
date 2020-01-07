@@ -1,4 +1,7 @@
 env = Environment()
-env.Append(LIBS = ['sfml-graphics','sfml-system'])
-main = env.Program(target='main', source=['src/main.cc'])
+
+core = env.Library('vulture-core', Glob('src/core/*.cc'))
+gui = env.Program('main', Glob('src/gui/*.cc'), LIBS=['vulture-core',
+'sfml-graphics'], LIBPATH='.')
+
 Default(main)
